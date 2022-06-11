@@ -1,14 +1,10 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import { useAuth } from '@/hooks/auth'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Banner from '@/components/Home/Banner'
 import ProductFeed from '@/components/Home/ProductFeed'
 
 export default function Home({ products }) {
-    const { user } = useAuth({ middleware: 'guest' })
-
     return (
         <main className="bg-gray-100">
             <Head>

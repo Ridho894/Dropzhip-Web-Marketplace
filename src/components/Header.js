@@ -6,10 +6,12 @@ import {
     ShoppingCartIcon,
 } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
+import { useAuth } from '@/hooks/auth'
 // import { useSelector } from "react-redux";
 // import { selectItems } from "../slices/basketSlice";
 
 function Header() {
+    const { user } = useAuth({ middleware: 'guest' })
     const router = useRouter()
     // const items = useSelector(selectItems);
     return (
@@ -36,9 +38,10 @@ function Header() {
                 </div>
                 {/* Right */}
                 <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
-                    <div className="link">
-                        <p>Hello</p>
-                        {/* <p>{session ? `Hello, ${session.user.name}` : "Sign In"}</p> */}
+                    <div
+                        className="link cursor-pointer"
+                        onClick={() => router.push('/dashboard')}>
+                        <p>{user ? `Hello, ${user.name}` : 'Sign In'}</p>
                         <p className="font-extrabold md:text-sm">
                             Account & Lists
                         </p>
