@@ -1,22 +1,25 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
-  mode: "jit",
-  purge: [
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
-  ],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {
-      colors: {
-        dropzhip_blue: {
-          light: "#232F3E",
-          DEFAULT: "#131921",
+    content: ['./src/**/*.js'],
+    darkMode: 'media',
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                dropzhip_blue: {
+                    light: '#232F3E',
+                    DEFAULT: '#131921',
+                },
+            },
         },
-      },
     },
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [require("@tailwindcss/line-clamp")],
-};
+    variants: {
+        extend: {
+            opacity: ['disabled'],
+        },
+    },
+    plugins: [require('@tailwindcss/forms')],
+}

@@ -1,35 +1,39 @@
 {
-  "name": "with-redux-toolkit",
-  "version": "1.0.0",
+  "name": "dropzhip-marketplace",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@badrap/bar-of-progress": "^0.1.2",
+    "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.6",
-    "@reduxjs/toolkit": "1.5.0",
-    "@stripe/stripe-js": "^1.24.0",
-    "@tailwindcss/line-clamp": "^0.2.0",
-    "axios": "^0.26.1",
-    "firebase": "^8.6.1",
-    "firebase-admin": "^10.0.2",
-    "micro": "^9.3.4",
-    "moment": "^2.29.1",
-    "next": "latest",
-    "next-auth": "4.0.0-beta.6",
-    "react": "17.0.1",
+    "@reduxjs/toolkit": "^1.8.2",
+    "axios": "^0.21.1",
+    "moment": "^2.29.3",
+    "next": "^12.0.4",
+    "react": "^17.0.2",
     "react-currency-formatter": "^1.1.0",
-    "react-dom": "17.0.1",
-    "react-redux": "7.2.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^8.0.2",
     "react-responsive-carousel": "^3.2.23",
-    "stripe": "^8.209.0"
+    "swr": "^1.2.2"
   },
-  "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^10.2.5",
-    "postcss": "^8.2.15",
-    "tailwindcss": "^2.1.2"
+    "@babel/eslint-parser": "^7.12.1",
+    "@next/eslint-plugin-next": "^10.0.4",
+    "@tailwindcss/forms": "^0.4.0",
+    "autoprefixer": "^10.4.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.17.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "eslint-plugin-react": "^7.22.0",
+    "postcss": "^8.4.6",
+    "prettier": "2.2.1",
+    "tailwindcss": "^3.0.22"
   }
 }
