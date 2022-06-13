@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 const Login = () => {
     const router = useRouter()
@@ -40,14 +41,7 @@ const Login = () => {
 
     return (
         <GuestLayout>
-            <AuthCard
-                logo={
-                    <Link href="/">
-                        <a>
-                            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-                        </a>
-                    </Link>
-                }>
+            <AuthCard logo={<Image src="/logo.png" width={100} height={100} />}>
                 {/* Session Status */}
                 <AuthSessionStatus className="mb-4" status={status} />
 
@@ -110,7 +104,7 @@ const Login = () => {
                             </a>
                         </Link>
 
-                        <Button className="ml-3">Login</Button>
+                        <Button className="ml-3 bg-dropzhip_blue">Login</Button>
                     </div>
                 </form>
             </AuthCard>

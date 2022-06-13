@@ -9,6 +9,7 @@ import { DropdownButton } from '@/components/Core/DropdownLink'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import Image from 'next/image'
 
 const Navigation = ({ user }) => {
     const router = useRouter()
@@ -26,9 +27,7 @@ const Navigation = ({ user }) => {
                         {/* Logo */}
                         <div className="flex-shrink-0 flex items-center">
                             <Link href="/dashboard">
-                                <a>
-                                    <ApplicationLogo className="block h-10 w-auto fill-current text-gray-600" />
-                                </a>
+                                <Image src="/logo.png" width={40} height={40} />
                             </Link>
                         </div>
 
