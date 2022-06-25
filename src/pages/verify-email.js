@@ -1,6 +1,6 @@
 import ApplicationLogo from '@/components/ApplicationLogo'
 import AuthCard from '@/components/AuthCard'
-import Button from '@/components/Button'
+import Button from '@/components/Core/Button'
 import GuestLayout from '@/components/Layouts/GuestLayout'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
@@ -23,7 +23,6 @@ const VerifyEmail = () => {
                         </a>
                     </Link>
                 }>
-
                 <div className="mb-4 text-sm text-gray-600">
                     Thanks for signing up! Before getting started, could you
                     verify your email address by clicking on the link we just
