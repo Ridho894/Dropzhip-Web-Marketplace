@@ -5,6 +5,7 @@ import ProgressBar from '@badrap/bar-of-progress'
 import { Router } from 'next/router'
 import Layout from '@/components/Layouts/Admin'
 import { useAuth } from '@/hooks/auth'
+import '@/styles/global.css'
 
 const progress = new ProgressBar({
     size: 4,
@@ -13,7 +14,12 @@ const progress = new ProgressBar({
     delay: 250,
 })
 
-const routeWithoutLayout = ['/login', '/forgot-password', '/']
+const routeWithoutLayout = [
+    '/login',
+    '/forgot-password',
+    '/',
+    '/category/[slug]',
+]
 
 Router.events.on('routeChangeStart', progress.start)
 Router.events.on('routeChangeComplete', progress.finish)
@@ -28,7 +34,7 @@ Router.events.on('routeChangeError', progress.finish)
 // }
 
 function MyApp({ Component, router, pageProps }) {
-    const { user } = useAuth({ middleware: 'auth' })
+    // const { user } = useAuth({ middleware: 'auth' })
     if (routeWithoutLayout.includes(router.pathname))
         return (
             <Provider store={store}>
@@ -38,7 +44,7 @@ function MyApp({ Component, router, pageProps }) {
 
     return (
         <Provider store={store}>
-            <Layout user={user}>
+            <Layout>
                 <Component {...pageProps} />
             </Layout>
         </Provider>

@@ -87,14 +87,17 @@ function Header() {
             </section>
             {/* Bottom Nav */}
             <section className="flex items-center space-x-3 p-2 pl-5 bg-dropzhip_blue-light text-white text-sm">
-                <p className="link flex items-center">
+                <a className="link hover:underline flex items-center">
                     <MenuIcon className="h-6 mr-1" />
                     All
-                </p>
+                </a>
                 {categories?.map((item, i) => (
-                    <p className="link" key={i}>
+                    <a
+                        className="link hover:underline"
+                        key={i}
+                        href={`/category/${item.name}`}>
                         {item.name}
-                    </p>
+                    </a>
                 ))}
             </section>
         </header>

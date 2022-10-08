@@ -38,32 +38,32 @@ const Login = () => {
         }
     })
 
-    const onSubmit = async data => {
-        setLoading(true)
-        const result = await signIn('credentials', {
-            redirect: false,
-            email: data.email,
-            password: data.password,
-        })
-        if (!result?.ok) {
-            setErrors(true)
-            setLoading(false)
-            return
-        }
-        let bcrypt = require('bcryptjs')
-        let salt = bcrypt.genSaltSync(10)
-        let hash = bcrypt.hashSync(data.password, salt)
+    // const onSubmit = async data => {
+    //     setLoading(true)
+    //     const result = await signIn('credentials', {
+    //         redirect: false,
+    //         email: data.email,
+    //         password: data.password,
+    //     })
+    //     if (!result?.ok) {
+    //         setErrors(true)
+    //         setLoading(false)
+    //         return
+    //     }
+    //     let bcrypt = require('bcryptjs')
+    //     let salt = bcrypt.genSaltSync(10)
+    //     let hash = bcrypt.hashSync(data.password, salt)
 
-        Cookies.set('dropzhip_indonesia', hash)
-        storage.removeItem('persist:root')
-        const { user } = await fetchSignin({
-            email: data.email,
-            password: data.password,
-        })
-        if (user) {
-            return router.push('/dashboard')
-        }
-    }
+    //     Cookies.set('dropzhip_indonesia', hash)
+    //     storage.removeItem('persist:root')
+    //     const { user } = await fetchSignin({
+    //         email: data.email,
+    //         password: data.password,
+    //     })
+    //     if (user) {
+    //         return router.push('/dashboard')
+    //     }
+    // }
 
     const submitForm = async event => {
         event.preventDefault()

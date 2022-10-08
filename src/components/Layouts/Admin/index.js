@@ -55,12 +55,13 @@ const routeWithoutLayout = [
     '/account/settings/app/[app_id]',
 ]
 
-const Layout = ({ children, user }) => {
+const Layout = ({ children }) => {
     // Hooks
     const router = useRouter()
     const dispatch = useDispatch()
 
     const { logout } = useAuth()
+    const { user } = useAuth({ middleware: 'auth' })
 
     const firstPath = router.pathname.split('/')[1]
 
