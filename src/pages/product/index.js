@@ -31,11 +31,11 @@ const ProductPage = () => {
     }, [])
 
     return (
-        <AppLayout>
+        <section>
             <Seo templateTitle="My Products" />
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="sm:px-6 lg:px-8">
                     <div className="flex items-center space-x-8 mb-8">
                         <Input
                             placeholder="Search product..."
@@ -68,7 +68,7 @@ const ProductPage = () => {
                     )}
                 </div>
             </div>
-        </AppLayout>
+        </section>
     )
 }
 

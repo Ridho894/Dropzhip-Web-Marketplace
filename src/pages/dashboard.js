@@ -4,12 +4,7 @@ import Head from 'next/head'
 
 const Dashboard = () => {
     return (
-        <AppLayout
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
-                </h2>
-            }>
+        <section>
             <Seo templateTitle="Dashboard" />
 
             <div className="py-12">
@@ -21,7 +16,7 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </section>
     )
 }
 

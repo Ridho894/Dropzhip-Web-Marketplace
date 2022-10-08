@@ -12,6 +12,9 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Seo from '@/components/Seo'
+import { signIn } from 'next-auth/react'
+import Cookies from 'js-cookie'
+import fetchSignin from '@/services/auth/signin.service'
 
 const Login = () => {
     const router = useRouter()
@@ -24,6 +27,7 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState([])
+    const [loading, setLoading] = useState(false)
     const [status, setStatus] = useState(null)
 
     useEffect(() => {
@@ -33,6 +37,33 @@ const Login = () => {
             setStatus(null)
         }
     })
+
+    const onSubmit = async data => {
+        setLoading(true)
+        const result = await signIn('credentials', {
+            redirect: false,
+            email: data.email,
+            password: data.password,
+        })
+        if (!result?.ok) {
+            setErrors(true)
+            setLoading(false)
+            return
+        }
+        let bcrypt = require('bcryptjs')
+        let salt = bcrypt.genSaltSync(10)
+        let hash = bcrypt.hashSync(data.password, salt)
+
+        Cookies.set('dropzhip_indonesia', hash)
+        storage.removeItem('persist:root')
+        const { user } = await fetchSignin({
+            email: data.email,
+            password: data.password,
+        })
+        if (user) {
+            return router.push('/dashboard')
+        }
+    }
 
     const submitForm = async event => {
         event.preventDefault()

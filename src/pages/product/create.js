@@ -6,7 +6,11 @@ const CreateProduct = () => {
     return (
         <AppLayout>
             <Seo templateTitle="Create Product" />
-            <p>CreateProduct</p>
+            <section className="py-12">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <p>CreateProduct</p>
+                </div>
+            </section>
         </AppLayout>
     )
 }
