@@ -73,6 +73,14 @@ const Navigation = ({ user }) => {
                                 </button>
                             }>
                             {/* Authentication */}
+                            <DropdownButton
+                                onClick={() => alert('Fun is not implemeted')}>
+                                My Profile
+                            </DropdownButton>
+                            <DropdownButton
+                                onClick={() => alert('Fun is not implemeted')}>
+                                Settings
+                            </DropdownButton>
                             <DropdownButton onClick={logout}>
                                 Logout
                             </DropdownButton>
