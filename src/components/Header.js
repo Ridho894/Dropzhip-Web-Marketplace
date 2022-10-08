@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import {
     MenuIcon,
@@ -9,11 +9,31 @@ import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
 import { useSelector } from 'react-redux'
 import { selectItems } from '@/slices/basketSlice'
+import { useState } from 'react'
+import { fetchCategories } from '@/services/categories/fetch.service'
 
 function Header() {
+    const [categories, setCategories] = useState([])
     const { user } = useAuth({ middleware: 'guest' })
+    const [loading, setLoading] = useState(false)
+    const fetchData = async () => {
+        try {
+            setLoading(true)
+            const { data } = await fetchCategories()
+            setCategories(data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
     const router = useRouter()
+    // Redux
     const items = useSelector(selectItems)
+
+    useEffect(() => {
+        fetchData()
+    }, [])
     return (
         <header>
             {/* Top Nav */}
@@ -71,17 +91,11 @@ function Header() {
                     <MenuIcon className="h-6 mr-1" />
                     All
                 </p>
-                <p className="link">Prime Video</p>
-                <p className="link">DropZhip Business</p>
-                <p className="link">Today's Deals</p>
-                <p className="link hidden lg:inline-flex">Electronics</p>
-                <p className="link hidden lg:inline-flex">Food & Grocery</p>
-                <p className="link hidden lg:inline-flex">Prime</p>
-                <p className="link hidden lg:inline-flex">Buy Again</p>
-                <p className="link hidden lg:inline-flex">Shopper Toolkit</p>
-                <p className="link hidden lg:inline-flex">
-                    Health & Personal Care
-                </p>
+                {categories?.map((item, i) => (
+                    <p className="link" key={i}>
+                        {item.name}
+                    </p>
+                ))}
             </section>
         </header>
     )
