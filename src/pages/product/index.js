@@ -1,6 +1,7 @@
 import Button from '@/components/Core/Button'
 import Checkbox from '@/components/Core/Checkbox'
 import Input from '@/components/Core/Input'
+import Pagination from '@/components/Core/Pagination'
 import AppLayout from '@/components/Layouts/AppLayout'
 import Seo from '@/components/Seo'
 import axios from '@/lib/axios'
@@ -14,6 +15,7 @@ const ProductPage = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [products, setProducts] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
 
     const fetchProducts = async () => {
         try {
@@ -55,7 +57,7 @@ const ProductPage = () => {
                         <div
                             className={`relative max-h-[450px] overflow-y-auto mt-4 cursor-default overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-100 z-0`}>
                             <table className="w-full bg-white text-left table-auto">
-                                <thead className="text-sm text-gray-700 font-medium sticky top-0 shadow z-[10]">
+                                <thead className="text-sm text-gray-700 bg-white font-medium sticky top-0 shadow z-[10]">
                                     <tr>
                                         <th
                                             scope="col"
@@ -156,6 +158,14 @@ const ProductPage = () => {
                     </div>
                 </div>
             </div>
+            {products?.data?.length >= 10 && (
+                <Pagination
+                    initialPage={currentPage}
+                    dataLength={products?.data?.length || 0}
+                    limit={10}
+                    disabled={loading}
+                />
+            )}
         </section>
     )
 }
