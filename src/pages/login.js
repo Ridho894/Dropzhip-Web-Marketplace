@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import Seo from '@/components/Seo'
 
 const Login = () => {
     const router = useRouter()
@@ -41,6 +42,8 @@ const Login = () => {
 
     return (
         <GuestLayout>
+            <Seo templateTitle="Login" />
+
             <AuthCard logo={<Image src="/logo.png" width={100} height={100} />}>
                 {/* Session Status */}
                 <AuthSessionStatus className="mb-4" status={status} />
