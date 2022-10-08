@@ -1,12 +1,18 @@
+import Button from '@/components/Core/Button'
+import Input from '@/components/Core/Input'
 import AppLayout from '@/components/Layouts/AppLayout'
+import Seo from '@/components/Seo'
 import axios from '@/lib/axios'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useEffect, useState, Fragment } from 'react'
 
 const ProductPage = () => {
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [products, setProducts] = useState([])
+
     const fetchProducts = async () => {
         try {
             setLoading(true)
@@ -25,18 +31,24 @@ const ProductPage = () => {
     }, [])
 
     return (
-        <AppLayout
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Products
-                </h2>
-            }>
-            <Head>
-                <title>Laravel - Products</title>
-            </Head>
+        <AppLayout>
+            <Seo templateTitle="My Products" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="flex items-center space-x-8 mb-8">
+                        <Input
+                            placeholder="Search product..."
+                            className={'w-full !p-3 outline-none'}
+                        />
+                        <button
+                            onClick={() => router.push('/product/create')}
+                            className={
+                                'w-max bg-dropzhip_blue-light whitespace-nowrap !p-3 rounded-lg text-white text-sm !px-5 active:scale-105'
+                            }>
+                            Create Product
+                        </button>
+                    </div>
                     {loading ? (
                         <p>Loading...</p>
                     ) : (

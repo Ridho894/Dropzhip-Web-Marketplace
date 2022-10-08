@@ -1,4 +1,5 @@
 import AppLayout from '@/components/Layouts/AppLayout'
+import Seo from '@/components/Seo'
 import Head from 'next/head'
 
 const Dashboard = () => {
@@ -9,9 +10,7 @@ const Dashboard = () => {
                     Dashboard
                 </h2>
             }>
-            <Head>
-                <title>Laravel - Dashboard</title>
-            </Head>
+            <Seo templateTitle="Dashboard" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
