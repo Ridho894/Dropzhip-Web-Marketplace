@@ -18,7 +18,7 @@ const menuItems = [
     },
     {
         href: '/product/',
-        title: 'Product',
+        title: 'Products',
         Icon: 'Product.svg',
     },
     {

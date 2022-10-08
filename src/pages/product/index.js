@@ -1,4 +1,5 @@
 import Button from '@/components/Core/Button'
+import Checkbox from '@/components/Core/Checkbox'
 import Input from '@/components/Core/Input'
 import AppLayout from '@/components/Layouts/AppLayout'
 import Seo from '@/components/Seo'
@@ -9,6 +10,7 @@ import { useEffect, useState, Fragment } from 'react'
 
 const ProductPage = () => {
     const router = useRouter()
+    const [selectedRows, setSelectedRows] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [products, setProducts] = useState([])
@@ -31,11 +33,11 @@ const ProductPage = () => {
     }, [])
 
     return (
-        <section>
+        <section className="p-6">
             <Seo templateTitle="My Products" />
-
+            <h1 className="text-2xl font-bold">Products</h1>
             <div className="py-12">
-                <div className="sm:px-6 lg:px-8">
+                <div>
                     <div className="flex items-center space-x-8 mb-8">
                         <Input
                             placeholder="Search product..."
@@ -49,23 +51,109 @@ const ProductPage = () => {
                             Create Product
                         </button>
                     </div>
-                    {loading ? (
-                        <p>Loading...</p>
-                    ) : (
-                        <Fragment>
-                            {error ? (
-                                <p>Error...</p>
-                            ) : (
-                                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                                    <div className="p-6 bg-white border-b border-gray-200">
-                                        {products?.data?.map((item, i) => (
-                                            <p key={i}>{item.name}</p>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </Fragment>
-                    )}
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div
+                            className={`relative max-h-[450px] overflow-y-auto mt-4 cursor-default overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-100 z-0`}>
+                            <table className="w-full bg-white text-left table-auto">
+                                <thead className="text-sm text-gray-700 font-medium sticky top-0 shadow z-[10]">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-3 text-sub3 font-normal w-20">
+                                            <Checkbox
+                                                onChange={e => {
+                                                    if (e.target.checked) {
+                                                        setSelectedRows(
+                                                            products?.data?.map(
+                                                                (_, i) => i,
+                                                            ),
+                                                        )
+                                                    } else {
+                                                        setSelectedRows([])
+                                                    }
+                                                }}
+                                                checked={
+                                                    products?.data?.length ===
+                                                        selectedRows.length &&
+                                                    products?.data?.length > 0
+                                                }
+                                            />
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-3 text-sub3 font-normal w-[500px]">
+                                            Product
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-3 text-sub3 font-normal">
+                                            Code
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-3 text-sub3 font-normal">
+                                            Status
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-3 text-sub3 font-normal">
+                                            Created At
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {products?.data?.length === 0 && (
+                                        <tr>
+                                            <td colSpan={99} className="py-4">
+                                                NOT FOUND
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {products?.data?.map((item, index) => (
+                                        <tr
+                                            className="bg-white border-b even:bg-gray-50"
+                                            key={index}>
+                                            <td className="align-top px-2 py-4">
+                                                <Checkbox
+                                                    onChange={e => {
+                                                        if (e.target.checked) {
+                                                            setSelectedRows([
+                                                                ...selectedRows,
+                                                                index,
+                                                            ])
+                                                        } else {
+                                                            const newSelectedRows = selectedRows.filter(
+                                                                i =>
+                                                                    i !== index,
+                                                            )
+                                                            setSelectedRows(
+                                                                newSelectedRows,
+                                                            )
+                                                        }
+                                                    }}
+                                                    checked={selectedRows.includes(
+                                                        index,
+                                                    )}
+                                                />
+                                            </td>
+                                            <td className="align-top px-2 py-4">
+                                                {item.name}
+                                            </td>
+                                            <td className="align-top px-2 py-4">
+                                                {item.id}
+                                            </td>
+                                            <td className="align-top px-2 py-4">
+                                                -
+                                            </td>
+                                            <td className="align-top px-2 py-4">
+                                                {item.created_at}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
