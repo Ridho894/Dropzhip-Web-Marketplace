@@ -12,7 +12,7 @@ function ProductFeed({ products }) {
                     id={product.id}
                     image={product.image}
                     price={product.price}
-                    title={product.title}
+                    title={product.name}
                 />
             ))}
             <img
@@ -29,7 +29,7 @@ function ProductFeed({ products }) {
                         id={product.id}
                         image={product.image}
                         price={product.price}
-                        title={product.title}
+                        title={product.name}
                     />
                 ))}
             </div>
@@ -41,7 +41,7 @@ function ProductFeed({ products }) {
                     id={product.id}
                     image={product.image}
                     price={product.price}
-                    title={product.title}
+                    title={product.name}
                 />
             ))}
         </main>

@@ -7,13 +7,13 @@ import {
 } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/hooks/auth'
-// import { useSelector } from "react-redux";
-// import { selectItems } from "../slices/basketSlice";
+import { useSelector } from 'react-redux'
+import { selectItems } from '@/slices/basketSlice'
 
 function Header() {
     const { user } = useAuth({ middleware: 'guest' })
     const router = useRouter()
-    // const items = useSelector(selectItems);
+    const items = useSelector(selectItems)
     return (
         <header>
             {/* Top Nav */}
@@ -56,7 +56,7 @@ function Header() {
                         className="link relative flex items-center"
                         onClick={() => router.push('/checkout')}>
                         <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-blue-900 rounded-full text-white font-bold text-center">
-                            9
+                            {items.length}
                         </span>
                         <ShoppingCartIcon className="h-10" />
                         <p className="hidden md:inline font-extrabold md:text-sm">

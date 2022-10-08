@@ -5,6 +5,7 @@ import Banner from '@/components/Home/Banner'
 import ProductFeed from '@/components/Home/ProductFeed'
 import axios from '@/lib/axios'
 import { useEffect, useState } from 'react'
+import Seo from '@/components/Seo'
 
 export default function Home() {
     const [loading, setLoading] = useState(false)
@@ -30,14 +31,7 @@ export default function Home() {
 
     return (
         <main className="bg-gray-100">
-            <Head>
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
-                <meta charSet="utf-8" />
-                <title>DropZhip Development</title>
-            </Head>
+            <Seo templateTitle="Home" />
             <Header />
             <section className="max-w-screen-xl mx-auto">
                 <Banner />
