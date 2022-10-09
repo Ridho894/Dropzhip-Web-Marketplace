@@ -8,6 +8,7 @@ import Label from '@/components/Core/Label'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
+import Image from 'next/image'
 
 const Register = () => {
     const { register } = useAuth({
@@ -35,14 +36,7 @@ const Register = () => {
 
     return (
         <GuestLayout>
-            <AuthCard
-                logo={
-                    <Link href="/">
-                        <a>
-                            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
-                        </a>
-                    </Link>
-                }>
+            <AuthCard logo={<Image src="/logo.png" width={100} height={100} />}>
                 {/* Validation Errors */}
                 <AuthValidationErrors className="mb-4" errors={errors} />
 

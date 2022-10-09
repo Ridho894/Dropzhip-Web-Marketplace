@@ -16,6 +16,7 @@ const progress = new ProgressBar({
 
 const routeWithoutLayout = [
     '/login',
+    '/register',
     '/forgot-password',
     '/',
     '/category/[slug]',

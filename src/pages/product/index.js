@@ -106,52 +106,74 @@ const ProductPage = () => {
                                 <tbody>
                                     {products?.data?.length === 0 && (
                                         <tr>
-                                            <td colSpan={99} className="py-4">
-                                                NOT FOUND
+                                            <td
+                                                colSpan={99}
+                                                className="py-4 text-center">
+                                                EMPTY PRODUCT
                                             </td>
                                         </tr>
                                     )}
-                                    {products?.data?.map((item, index) => (
-                                        <tr
-                                            className="bg-white border-b even:bg-gray-50"
-                                            key={index}>
-                                            <td className="align-top px-2 py-4">
-                                                <Checkbox
-                                                    onChange={e => {
-                                                        if (e.target.checked) {
-                                                            setSelectedRows([
-                                                                ...selectedRows,
-                                                                index,
-                                                            ])
-                                                        } else {
-                                                            const newSelectedRows = selectedRows.filter(
-                                                                i =>
-                                                                    i !== index,
-                                                            )
-                                                            setSelectedRows(
-                                                                newSelectedRows,
-                                                            )
-                                                        }
-                                                    }}
-                                                    checked={selectedRows.includes(
-                                                        index,
-                                                    )}
-                                                />
-                                            </td>
-                                            <td className="align-top px-2 py-4">
-                                                {item.name}
-                                            </td>
-                                            <td className="align-top px-2 py-4">
-                                                {item.id}
-                                            </td>
-                                            <td className="align-top px-2 py-4">
-                                                -
-                                            </td>
-                                            <td className="align-top px-2 py-4">
-                                                {item.created_at}
+                                    {loading ? (
+                                        <tr>
+                                            <td
+                                                colSpan={99}
+                                                className="py-4 text-center">
+                                                LOADING...
                                             </td>
                                         </tr>
-                                    ))}
+                                    ) : (
+                                        <Fragment>
+                                            {products?.data?.map(
+                                                (item, index) => (
+                                                    <tr
+                                                        className="bg-white border-b even:bg-gray-50"
+                                                        key={index}>
+                                                        <td className="align-top px-2 py-4">
+                                                            <Checkbox
+                                                                onChange={e => {
+                                                                    if (
+                                                                        e.target
+                                                                            .checked
+                                                                    ) {
+                                                                        setSelectedRows(
+                                                                            [
+                                                                                ...selectedRows,
+                                                                                index,
+                                                                            ],
+                                                                        )
+                                                                    } else {
+                                                                        const newSelectedRows = selectedRows.filter(
+                                                                            i =>
+                                                                                i !==
+                                                                                index,
+                                                                        )
+                                                                        setSelectedRows(
+                                                                            newSelectedRows,
+                                                                        )
+                                                                    }
+                                                                }}
+                                                                checked={selectedRows.includes(
+                                                                    index,
+                                                                )}
+                                                            />
+                                                        </td>
+                                                        <td className="align-top px-2 py-4">
+                                                            {item.name}
+                                                        </td>
+                                                        <td className="align-top px-2 py-4">
+                                                            {item.id}
+                                                        </td>
+                                                        <td className="align-top px-2 py-4">
+                                                            -
+                                                        </td>
+                                                        <td className="align-top px-2 py-4">
+                                                            {item.created_at}
+                                                        </td>
+                                                    </tr>
+                                                ),
+                                            )}
+                                        </Fragment>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
