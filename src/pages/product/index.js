@@ -1,13 +1,12 @@
-import Button from '@/components/Core/Button'
+import { Popover } from '@headlessui/react'
 import Checkbox from '@/components/Core/Checkbox'
 import Input from '@/components/Core/Input'
 import Pagination from '@/components/Core/Pagination'
-import AppLayout from '@/components/Layouts/AppLayout'
 import Seo from '@/components/Seo'
 import axios from '@/lib/axios'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState, Fragment } from 'react'
+import { ReactSVG } from 'react-svg'
 
 const ProductPage = () => {
     const router = useRouter()
@@ -101,6 +100,9 @@ const ProductPage = () => {
                                             className="px-2 py-3 text-sub3 font-normal">
                                             Created At
                                         </th>
+                                        <th
+                                            scope="col"
+                                            className="px-2 py-3 text-sub3 font-normal"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -168,6 +170,53 @@ const ProductPage = () => {
                                                         </td>
                                                         <td className="align-top px-2 py-4">
                                                             {item.created_at}
+                                                        </td>
+                                                        <td className="align-top px-2 py-4">
+                                                            <Popover className="relative">
+                                                                <Popover.Button className="border border-base-300 rounded-md p-1 outline-none">
+                                                                    <ReactSVG
+                                                                        src="/icons/line/More-vertical.svg"
+                                                                        height={
+                                                                            20
+                                                                        }
+                                                                        width={
+                                                                            20
+                                                                        }
+                                                                        wrapper="svg"
+                                                                    />
+                                                                </Popover.Button>
+
+                                                                <Popover.Panel className="absolute z-[2] top-100 right-[50px] min-w-[150px] rounded-md bg-white shadow-md overflow-hidden">
+                                                                    <button className="py-3 px-4 text-sub1 text-base-900 border-b border-base-200 last:border-noone w-full text-left hover:bg-base-200">
+                                                                        <ReactSVG
+                                                                            src="/icons/line/Edit.svg"
+                                                                            height={
+                                                                                20
+                                                                            }
+                                                                            width={
+                                                                                20
+                                                                            }
+                                                                            wrapper="svg"
+                                                                            className="inline mr-3"
+                                                                        />
+                                                                        Edit
+                                                                    </button>
+                                                                    <button className="py-3 px-4 text-sub1 text-base-900 border-b border-base-200 last:border-noone w-full text-left hover:bg-base-200">
+                                                                        <ReactSVG
+                                                                            src="/icons/line/Delete.svg"
+                                                                            height={
+                                                                                20
+                                                                            }
+                                                                            width={
+                                                                                20
+                                                                            }
+                                                                            wrapper="svg"
+                                                                            className="inline mr-3"
+                                                                        />
+                                                                        Delete
+                                                                    </button>
+                                                                </Popover.Panel>
+                                                            </Popover>
                                                         </td>
                                                     </tr>
                                                 ),

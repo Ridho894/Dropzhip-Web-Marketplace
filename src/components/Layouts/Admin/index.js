@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ReactSVG } from 'react-svg'
+import AccountDropdown from './AccountDropdown'
 
 const routeWithourSidebar = ['/alerts']
 
@@ -120,48 +121,7 @@ const Layout = ({ children }) => {
                                 alt="Dropzhip Indonesia"
                             />
                         </p>
-                        <div className="flex items-center">
-                            <div className="hidden sm:flex sm:items-center sm:ml-6">
-                                <Dropdown
-                                    align="right"
-                                    width="48"
-                                    trigger={
-                                        <button className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
-                                            <div>{user?.name}</div>
 
-                                            <div className="ml-1">
-                                                <svg
-                                                    className="fill-current h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20">
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </div>
-                                        </button>
-                                    }>
-                                    {/* Authentication */}
-                                    <DropdownButton
-                                        onClick={() =>
-                                            alert('Fun is not implemeted')
-                                        }>
-                                        My Profile
-                                    </DropdownButton>
-                                    <DropdownButton
-                                        onClick={() =>
-                                            alert('Fun is not implemeted')
-                                        }>
-                                        Settings
-                                    </DropdownButton>
-                                    <DropdownButton onClick={logout}>
-                                        Logout
-                                    </DropdownButton>
-                                </Dropdown>
-                            </div>
-                        </div>
                         <div className="flex items-center">
                             <div className="mr-6 py-1">
                                 {loading ? (
@@ -199,20 +159,10 @@ const Layout = ({ children }) => {
                                 )}
                             </div>
                             <div className="flex items-center gap-4">
-                                <Tooltip
-                                    placement="bottom"
-                                    className="text-sub3 text-base-100 !py-1 !px-2 !rounded bg-backgroundDark-200 whitespace-nowrap !mt-2"
-                                    classPolygon="!h-[12px] !rounded-sm !-top-[4px] -translate-y-1/2"
-                                    content="Help">
-                                    <div className="hover:bg-base-200 p-1 rounded-lg cursor-pointer">
-                                        <p>Help</p>
-                                    </div>
-                                </Tooltip>
-
                                 {/* <AccountUsageDropdown />
                 <NotificationDropdown />
-                <ApplicationDropdown />
-                <AccountDropdown /> */}
+                <ApplicationDropdown /> */}
+                                <AccountDropdown />
                             </div>
                         </div>
                     </header>

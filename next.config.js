@@ -3,6 +3,7 @@ module.exports = {
         domains: [
             'links.papareact.com',
             'fakestoreapi.com',
+            'img.freepik.com',
             'encrypted-tbn0.gstatic.com',
         ],
     },
