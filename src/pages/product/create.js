@@ -1,21 +1,10 @@
 import Seo from '@/components/Seo'
+import { slugify } from '@/helpers/slugify'
 import { useAuth } from '@/hooks/auth'
 import axios from '@/lib/axios'
 import Router from 'next/router'
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-
-function slugify(string) {
-    return string
-        .toString()
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w\-]+/g, '')
-        .replace(/\-\-+/g, '-')
-        .replace(/^-+/, '')
-        .replace(/-+$/, '')
-}
 
 const CreateProduct = () => {
     const { user } = useAuth({ middleware: 'auth' })
