@@ -1,6 +1,8 @@
 import Dropdown from '@/components/Core/Dropdown'
 import { DropdownButton } from '@/components/Core/DropdownLink'
+import Tooltip from '@/components/Core/Tooltip'
 import { useAuth } from '@/hooks/auth'
+import { format } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -158,6 +160,59 @@ const Layout = ({ children }) => {
                                         Logout
                                     </DropdownButton>
                                 </Dropdown>
+                            </div>
+                        </div>
+                        <div className="flex items-center">
+                            <div className="mr-6 py-1">
+                                {loading ? (
+                                    <div className="flex items-center bg-[#F0F2F5] px-3 py-2 rounded-lg">
+                                        <div className="mr-1">
+                                            <ReactSVG
+                                                width={24}
+                                                height={24}
+                                                wrapper="svg"
+                                                src="/icons/duotone/Download.svg"
+                                            />
+                                        </div>
+                                        <h1 className="text-base-900 text-sm font-medium">
+                                            Synchronization...
+                                        </h1>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center bg-[#F0F2F5] px-3 py-2 rounded-lg">
+                                        <div className="mr-1">
+                                            <ReactSVG
+                                                width={24}
+                                                height={24}
+                                                wrapper="svg"
+                                                src="/icons/duotone/Download.svg"
+                                            />
+                                        </div>
+                                        <div className="text-sm font-medium">
+                                            Last sync :{' '}
+                                            {format(
+                                                new Date(),
+                                                'd MMM yyyy, HH:mm:ss',
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <Tooltip
+                                    placement="bottom"
+                                    className="text-sub3 text-base-100 !py-1 !px-2 !rounded bg-backgroundDark-200 whitespace-nowrap !mt-2"
+                                    classPolygon="!h-[12px] !rounded-sm !-top-[4px] -translate-y-1/2"
+                                    content="Help">
+                                    <div className="hover:bg-base-200 p-1 rounded-lg cursor-pointer">
+                                        <p>Help</p>
+                                    </div>
+                                </Tooltip>
+
+                                {/* <AccountUsageDropdown />
+                <NotificationDropdown />
+                <ApplicationDropdown />
+                <AccountDropdown /> */}
                             </div>
                         </div>
                     </header>
