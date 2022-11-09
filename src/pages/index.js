@@ -6,28 +6,19 @@ import ProductFeed from '@/components/Home/ProductFeed'
 import axios from '@/lib/axios'
 import { useEffect, useState } from 'react'
 import Seo from '@/components/Seo'
+import fetchProducts from '@/services/products/fetch.service'
+import { useQuery } from '@tanstack/react-query'
 
 export default function Home() {
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
-    const [products, setProducts] = useState([])
-
-    const fetchProducts = async () => {
-        try {
-            setLoading(true)
-            const { data } = await axios.get('api/products')
-            setProducts(data)
-        } catch (error) {
-            console.log(error)
-            setError(true)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        fetchProducts()
-    }, [])
+    // Fetch data from API
+    const { data: products, isLoading, isError } = useQuery(
+        ['/api/products'],
+        fetchProducts,
+        {
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        },
+    )
 
     return (
         <main className="bg-gray-100">
@@ -35,6 +26,8 @@ export default function Home() {
             <Header />
             <section className="max-w-screen-xl mx-auto">
                 <Banner />
+                {isLoading && <p>Loading</p>}
+                {isError && <p>Error</p>}
                 <ProductFeed products={products} />
             </section>
             <Footer />

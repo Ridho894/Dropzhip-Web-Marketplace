@@ -6,6 +6,7 @@ import { Router } from 'next/router'
 import Layout from '@/components/Layouts/Admin'
 import { useAuth } from '@/hooks/auth'
 import '@/styles/global.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const progress = new ProgressBar({
     size: 4,
@@ -26,28 +27,26 @@ Router.events.on('routeChangeStart', progress.start)
 Router.events.on('routeChangeComplete', progress.finish)
 Router.events.on('routeChangeError', progress.finish)
 
-// const App = ({ Component, pageProps,router }) => {
-//     return (
-//         <Provider store={store}>
-//             <Component {...pageProps} />
-//         </Provider>
-//     )
-// }
+const queryClient = new QueryClient()
 
 function MyApp({ Component, router, pageProps }) {
     // const { user } = useAuth({ middleware: 'auth' })
     if (routeWithoutLayout.includes(router.pathname))
         return (
             <Provider store={store}>
-                <Component {...pageProps} />
+                <QueryClientProvider client={queryClient}>
+                    <Component {...pageProps} />
+                </QueryClientProvider>
             </Provider>
         )
 
     return (
         <Provider store={store}>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+            <QueryClientProvider client={queryClient}>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+            </QueryClientProvider>
         </Provider>
     )
 }

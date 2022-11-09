@@ -1,4 +1,3 @@
-import ApplicationLogo from '@/components/ApplicationLogo'
 import AuthCard from '@/components/AuthCard'
 import AuthSessionStatus from '@/components/AuthSessionStatus'
 import AuthValidationErrors from '@/components/AuthValidationErrors'
@@ -12,9 +11,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Seo from '@/components/Seo'
-import { signIn } from 'next-auth/react'
-import Cookies from 'js-cookie'
-import fetchSignin from '@/services/auth/signin.service'
 
 const Login = () => {
     const router = useRouter()
@@ -115,7 +111,12 @@ const Login = () => {
 
                     {/* Remember Me */}
                     <div className="block mt-4">
-                        <label
+                        <Link href="/forgot-password">
+                            <a className="underline text-sm text-gray-600 hover:text-gray-900">
+                                Forgot your password?
+                            </a>
+                        </Link>
+                        {/* <label
                             htmlFor="remember_me"
                             className="inline-flex items-center">
                             <input
@@ -128,17 +129,24 @@ const Login = () => {
                             <span className="ml-2 text-sm text-gray-600">
                                 Remember me
                             </span>
-                        </label>
+                        </label> */}
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
-                        <Link href="/forgot-password">
+                        {/* <Link href="/forgot-password">
                             <a className="underline text-sm text-gray-600 hover:text-gray-900">
                                 Forgot your password?
                             </a>
-                        </Link>
+                        </Link> */}
 
-                        <Button className="ml-3 bg-dropzhip_blue">Login</Button>
+                        <Button type="submit" className="ml-3 bg-dropzhip_blue">
+                            Login
+                        </Button>
+                        <Button
+                            onClick={() => router.push('/register')}
+                            className="ml-3 bg-dropzhip_blue">
+                            Register
+                        </Button>
                     </div>
                 </form>
             </AuthCard>
