@@ -42,7 +42,7 @@ const ProductPage = () => {
                     <div className="flex items-center space-x-8 mb-8">
                         <Input
                             placeholder="Search product..."
-                            className={'w-full !p-3 outline-none'}
+                            className={'w-full border-2 !p-3 outline-none'}
                         />
                         <button
                             onClick={() => router.push('/product/create')}

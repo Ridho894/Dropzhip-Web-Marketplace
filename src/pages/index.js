@@ -14,10 +14,6 @@ export default function Home() {
     const { data: products, isLoading, isError } = useQuery(
         ['/api/products'],
         fetchProducts,
-        {
-            staleTime: Infinity,
-            cacheTime: Infinity,
-        },
     )
 
     return (
