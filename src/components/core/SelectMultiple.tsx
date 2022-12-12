@@ -51,7 +51,7 @@ type SelectMultipleProps = {
   withShowSelected?: boolean;
   limitShowChip?: number;
   withSuffix?: boolean;
-  placeholderBold?: boolean;
+  placeholderBold?: boolean
 };
 
 const positions = {
@@ -86,7 +86,7 @@ const SelectMultiple: React.FC<SelectMultipleProps> = ({
   withShowSelected = false,
   limitShowChip = null,
   withSuffix = false,
-  placeholderBold = false,
+  placeholderBold = false
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<SelectItem[]>([]);
@@ -373,14 +373,12 @@ const SelectMultiple: React.FC<SelectMultipleProps> = ({
           </div>
           {!searchable && (
             <span
-              className={cx(
-                "block truncate",
-                {
-                  "text-base-500": !selected.length && !placeholderBold,
-                },
-                {
-                  "text-base-900": placeholderBold,
-                }
+              className={cx("block truncate", {
+                "text-base-500": !selected.length && !placeholderBold,
+              },
+              {
+                "text-base-900": placeholderBold,
+              }
               )}
             >
               {!selected.length && placeholder}

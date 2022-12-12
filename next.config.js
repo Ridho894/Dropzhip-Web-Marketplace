@@ -1,7 +1,21 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-}
+module.exports = {
+  images: {
+    domains: [
+      "img.freepik.com",
+      "upload.wikimedia.org",
+      "pbs.twimg.com",
+      "res.cloudinary.com",
+      "picsum.photos",
+      "bit.ly",
+      "localhost",
+    ],
+  },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    });
 
-module.exports = nextConfig
+    return config;
+  },
+};

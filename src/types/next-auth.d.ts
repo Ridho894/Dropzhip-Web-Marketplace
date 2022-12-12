@@ -12,8 +12,9 @@ declare module "next-auth" {
       name: string;
       username: string;
       email: string;
-      is_admin: number;
+      n_status: number;
       remember_token: string | null;
+      is_admin: number;
       last_login: string;
       register_date: string | null;
       updated_at: string;

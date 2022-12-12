@@ -37,10 +37,10 @@ const Button: React.FC<ButtonProps> = ({
         {
           "w-full": full,
           // variant primary
-          "bg-primary-600 hover:bg-primary-700 active:bg-primary-800 disabled:bg-base-500 text-white":
+          "bg-dropzhip_blue hover:bg-dropzhip_blue-light active:bg-dropzhip_blue-light disabled:bg-gray-500 text-white":
             variant === "primary",
           // variant secondary
-          "border border-primary-600 text-primary-600 hover:bg-white hover:border-primary-700 hover:text-primary-700 active:text-primary-800 disabled:border-base-500 disabled:text-base-500":
+          "border border-dropzhip_blue text-gray-600 hover:bg-white hover:border-gray-700 hover:text-gray-700 active:text-gray-800 disabled:border-gray-500 disabled:text-gray-500":
             variant === "secondary",
         },
         className
