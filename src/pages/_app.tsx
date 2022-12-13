@@ -16,7 +16,7 @@ import { store } from "@/redux/store";
 
 const progress = new ProgressBar({
   size: 4,
-  color: "#00B400",
+  color: "#232F3E",
   className: "z-50",
   delay: 250,
 });
@@ -25,13 +25,11 @@ Router.events.on("routeChangeStart", progress.start);
 Router.events.on("routeChangeComplete", progress.finish);
 Router.events.on("routeChangeError", progress.finish);
 
-const routeWithoutLayout = [
-  "/login",
-  "/register",
-  "/forgot-password",
-  "/",
-  "/category/[slug]",
-];
+const routeWithoutLayout = ["/login", "/register", "/forgot-password"];
+
+const routeWithGuestLayout = ["/category/[slug]", "/"];
+
+const routeWithAdminLayout = ["/dashboard"];
 
 const queryClient = new QueryClient();
 
@@ -40,7 +38,7 @@ function MyApp({
   router,
   pageProps: { session, ...pageProps },
 }: any) {
-  if (routeWithoutLayout.includes(router.pathname))
+  if (routeWithGuestLayout.includes(router.pathname))
     return (
       <SessionProvider session={session}>
         <Provider store={store}>
@@ -52,14 +50,24 @@ function MyApp({
         </Provider>
       </SessionProvider>
     );
+  else if (routeWithAdminLayout.includes(router.pathname))
+    return (
+      <SessionProvider session={session}>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <AdminLayout>
+              <Component {...pageProps} />
+            </AdminLayout>
+          </QueryClientProvider>
+        </Provider>
+      </SessionProvider>
+    );
 
   return (
     <SessionProvider session={session}>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <AdminLayout>
-            <Component {...pageProps} />
-          </AdminLayout>
+          <Component {...pageProps} />
         </QueryClientProvider>
       </Provider>
     </SessionProvider>
