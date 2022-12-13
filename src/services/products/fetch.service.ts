@@ -2,7 +2,7 @@ import apiClient from "@/utils/api"
 
 export type Params = {
     limit: number;
-    take: 10;
+    take: number;
     sort_order: "DESC" | "ASC"
 }
 

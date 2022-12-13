@@ -92,7 +92,7 @@ const Pagination: React.FC<Props> = ({
     <div className={`flex ${showHelper ? "justify-between" : "justify-end"}`}>
       {showHelper && (
         <div>
-          <span className="text-base-700 text-sub2 font-normal">
+          <span className="text-gray-500 text-sub2 font-normal">
             Showing {startOffset + 1} to {endOffset} of {dataLength} entries
           </span>
         </div>
@@ -101,7 +101,7 @@ const Pagination: React.FC<Props> = ({
         <div
           className={cx(
             "flex text-sub2 bg-white rounded-md border border-[#DDDDDD] overflow-hidden",
-            { "bg-base-200 text-base-500 pointer-events-none": disabled }
+            { "bg-base-200 text-gray-500 pointer-events-none": disabled }
           )}
         >
           {!showNumber && (
@@ -129,9 +129,9 @@ const Pagination: React.FC<Props> = ({
               {currentPage >= maxItemShown && pageCount > maxItemShown + 1 && (
                 <button
                   className={cx(
-                    "py-2 px-4 border-l  transition-colors duration-300",
+                    "py-2 px-4 border-l transition-colors duration-300",
                     {
-                      "bg-primary-600 text-white": currentPage === 1,
+                      "bg-dropzhip_blue text-white": currentPage === 1,
                       "hover:bg-base-200 hover:text-base-900":
                         currentPage !== pageCount,
                     }
@@ -153,8 +153,8 @@ const Pagination: React.FC<Props> = ({
                   className={cx(
                     "py-2 px-4 border-l transition-colors duration-300",
                     {
-                      "bg-primary-600 text-white": currentPage === page,
-                      "hover:bg-base-200 hover:text-base-900":
+                      "bg-dropzhip_blue text-white": currentPage === page,
+                      "hover:bg-dropzhip_blue/5 hover:text-base-900":
                         currentPage !== page,
                     }
                   )}
@@ -173,7 +173,7 @@ const Pagination: React.FC<Props> = ({
                   className={cx(
                     "py-2 px-4 border-l  transition-colors duration-300",
                     {
-                      "bg-primary-600 text-white": currentPage === pageCount,
+                      "bg-dropzhip_blue text-white": currentPage === pageCount,
                       "hover:bg-base-200 hover:text-base-900":
                         currentPage !== pageCount,
                     }
