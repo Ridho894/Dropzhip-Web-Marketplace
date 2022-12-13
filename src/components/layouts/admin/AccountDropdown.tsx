@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Button from "@/components/core/Button";
 import { ReactSVG } from "react-svg";
 import { useSession, signOut } from "next-auth/react";
+import Avatar from "@/components/common/Avatar";
 
 const AccountDropdown = () => {
   const { data: session, status } = useSession();
@@ -15,17 +16,8 @@ const AccountDropdown = () => {
 
   return (
     <div className="group relative z-50">
-      <div className="rounded-full transition-all cursor-pointer duration-200 outline-none h-[35px] w-[35px] hover:ring-[2px] hover:ring-primary-600">
-        <Image
-          alt=""
-          width={35}
-          objectFit="cover"
-          height={35}
-          className="rounded-full"
-          src={
-            "https://img.freepik.com/free-photo/business-finance-employment-female-successful-entrepreneurs-concept-friendly-smiling-office-manager-greeting-new-coworker-businesswoman-welcome-clients-with-hand-wave-hold-laptop_1258-59122.jpg?size=626&ext=jpg&uid=R20441441&ga=GA1.2.487010921.1634932868"
-          }
-        />
+      <div className="rounded-full transition-all cursor-pointer duration-200 outline-none h-[35px] w-[35px] hover:ring-[2px] hover:ring-dropzhip_blue-light">
+        <Avatar name={session?.user?.username} height={35} width={35} />
       </div>
       <div className="absolute z-0 right-0 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 ease-in-out pt-[15px] whitespace-nowrap">
         <div className="p-4 bg-base-100 w-[300px] shadow-xl rounded-lg">

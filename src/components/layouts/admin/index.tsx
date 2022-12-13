@@ -98,7 +98,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </p>
 
             <div className="flex items-center">
-              <div className="mr-6 py-1">
+              {/* <div className="mr-6 py-1">
                 {loading ? (
                   <div className="flex items-center bg-[#F0F2F5] px-3 py-2 rounded-lg">
                     <div className="mr-1">
@@ -128,7 +128,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
               <div className="flex items-center gap-4">
                 {/* <AccountUsageDropdown />
                 <NotificationDropdown />

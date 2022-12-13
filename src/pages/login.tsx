@@ -80,7 +80,7 @@ const Login = () => {
     // clear all react query cache
     queryClient.clear();
 
-    router.push("/");
+    router.push("/dashboard");
   };
   return (
     <>
