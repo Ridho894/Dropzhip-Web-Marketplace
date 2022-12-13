@@ -9,6 +9,9 @@ import { Toaster } from "react-hot-toast";
 import "@/styles/globals.css";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-loading-skeleton/dist/skeleton.css";
+import Layout from "@/components/layouts/admin";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
 const progress = new ProgressBar({
   size: 4,
@@ -21,6 +24,8 @@ Router.events.on("routeChangeStart", progress.start);
 Router.events.on("routeChangeComplete", progress.finish);
 Router.events.on("routeChangeError", progress.finish);
 
+const routeWithoutLayout = ["/login", "/register", "/forgot-password", "/"];
+
 const queryClient = new QueryClient();
 
 function MyApp({
@@ -28,12 +33,26 @@ function MyApp({
   router,
   pageProps: { session, ...pageProps },
 }: any) {
+  if (routeWithoutLayout.includes(router.pathname))
+    return (
+      <SessionProvider session={session}>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+          </QueryClientProvider>
+        </Provider>
+      </SessionProvider>
+    );
+
   return (
     <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        <Toaster />
-        <Component {...pageProps} />
-      </QueryClientProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </QueryClientProvider>
+      </Provider>
     </SessionProvider>
   );
 }

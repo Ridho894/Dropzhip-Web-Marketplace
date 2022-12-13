@@ -79,6 +79,8 @@ const Login = () => {
     Cookies.set("dropzhip_build", hash);
     // clear all react query cache
     queryClient.clear();
+
+    router.push("/");
   };
   return (
     <>
