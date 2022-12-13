@@ -9,7 +9,8 @@ import { Toaster } from "react-hot-toast";
 import "@/styles/globals.css";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-loading-skeleton/dist/skeleton.css";
-import Layout from "@/components/layouts/admin";
+import AdminLayout from "@/components/layouts/admin";
+import GuestLayout from "@/components/layouts/guest";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 
@@ -24,7 +25,13 @@ Router.events.on("routeChangeStart", progress.start);
 Router.events.on("routeChangeComplete", progress.finish);
 Router.events.on("routeChangeError", progress.finish);
 
-const routeWithoutLayout = ["/login", "/register", "/forgot-password", "/"];
+const routeWithoutLayout = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/",
+  "/category/[slug]",
+];
 
 const queryClient = new QueryClient();
 
@@ -38,7 +45,9 @@ function MyApp({
       <SessionProvider session={session}>
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
+            <GuestLayout>
+              <Component {...pageProps} />
+            </GuestLayout>
           </QueryClientProvider>
         </Provider>
       </SessionProvider>
@@ -48,16 +57,22 @@ function MyApp({
     <SessionProvider session={session}>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <Layout>
+          <AdminLayout>
             <Component {...pageProps} />
-          </Layout>
+          </AdminLayout>
         </QueryClientProvider>
       </Provider>
     </SessionProvider>
   );
 }
 
-const unprotectedPages = ["/login", "/forgot-password", "/reset-password", "/"];
+const unprotectedPages = [
+  "/login",
+  "/forgot-password",
+  "/reset-password",
+  "/",
+  "/category/[slug]",
+];
 
 type JWTDecoded = {
   iss: string;

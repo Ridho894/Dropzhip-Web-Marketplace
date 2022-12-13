@@ -12,12 +12,10 @@ export default function Home() {
   return (
     <main className="bg-gray-100">
       <Seo templateTitle="Home" />
-      <Header />
       <section className="max-w-screen-xl mx-auto">
         <Banner />
         <ProductFeed />
       </section>
-      <Footer />
     </main>
   );
 }
