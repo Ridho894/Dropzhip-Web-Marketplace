@@ -9,6 +9,7 @@ export type Params = {
 type Response = {
     data: {
         data: {
+            id: number;
             name: string;
             description: string;
             price: number;

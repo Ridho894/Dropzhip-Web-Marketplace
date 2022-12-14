@@ -13,10 +13,10 @@ type ToastProps = {
 };
 
 const colors = {
-  success: "bg-success-600",
-  error: "bg-danger-600",
-  warning: "bg-warning-600",
-  loading: "bg-success-600",
+  success: "bg-green-600",
+  error: "bg-red-600",
+  warning: "bg-yellow-600",
+  loading: "bg-green-600",
 };
 
 export const Toast: React.FC<ToastProps> = ({
@@ -45,7 +45,6 @@ type Props = {
 const defaultAdditionalProps: Props = {
   position: "top-right",
 };
-
 
 export const toastSuccess = (
   message: string,
@@ -77,15 +76,14 @@ export const toastWarning = (
   );
 };
 
-export const toastLoading = (
-  message: string,
-) => {
+export const toastLoading = (message: string) => {
   return toast.custom(
     (t) => <Toast type="loading" visible={t.visible} message={message} />,
     {
       position: "top-right",
       duration: Infinity,
-      className: "animate-enter bg-success-600 shadow-lg rounded-lg pointer-events-auto flex text-base-100 py-2 px-3 items-center gap-2"
+      className:
+        "animate-enter bg-success-600 shadow-lg rounded-lg pointer-events-auto flex text-base-100 py-2 px-3 items-center gap-2",
     }
   );
 };

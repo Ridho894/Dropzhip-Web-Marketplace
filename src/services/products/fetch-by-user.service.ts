@@ -1,6 +1,7 @@
 import apiClient from "@/utils/api"
 
 export type Params = {
+    search: string;
     limit: number;
     take: number;
     sort_order: "DESC" | "ASC"
@@ -9,6 +10,7 @@ export type Params = {
 type Response = {
     data: {
         data: {
+            id: number;
             name: string;
             description: string;
             price: number;

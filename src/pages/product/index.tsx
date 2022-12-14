@@ -6,31 +6,71 @@ import Seo from "@/components/Seo";
 import { useRouter } from "next/router";
 import { useEffect, useState, Fragment, ChangeEvent } from "react";
 import { ReactSVG } from "react-svg";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchProductByUser, {
   Params as GetProductParams,
 } from "@/services/products/fetch-by-user.service";
+import { thousandFormat } from "@/utils/number";
+import { MenuIcon } from "@heroicons/react/solid";
+import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
+import { toastError } from "@/components/core/Toast";
+import deleteProduct from "@/services/products/delete.service";
+import ModalDeleteProduct from "@/components/product/ModalDeleteProduct";
 
 const ProductPage = () => {
+  // Hooks
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  // Modal State
+  const [moreThanOne, setMoreThanOne] = useState<boolean>(false);
+  const [modalDeleteShow, setModalDeleteShow] = useState<boolean>(false);
+
+  // Data State
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState<string>("");
 
   const payload: GetProductParams = {
+    search: search,
     limit: 100,
     sort_order: "DESC",
     take: 10,
   };
 
   // Fetch data from API
-  const { data: products, isLoading } = useQuery(
-    ["/api/products", JSON.stringify({ ...payload, currentPage })],
+  const {
+    data: products,
+    isLoading,
+    refetch,
+  } = useQuery(
+    ["product-by-user", JSON.stringify({ ...payload, currentPage })],
     () => {
       const promise = fetchProductByUser(currentPage, payload);
 
       return promise;
+    },
+    {
+      refetchOnWindowFocus: false,
     }
   );
+
+  const handleDeleteProduct = async () => {
+    try {
+      queryClient.refetchQueries({
+        queryKey: ["product-by-user"],
+      });
+      await deleteProduct({
+        id: selectedRows,
+      });
+      setCurrentPage(1);
+      setSelectedRows([]);
+      refetch();
+    } catch (error) {
+      console.log(error);
+      toastError("Failed Deleted");
+    }
+  };
 
   return (
     <section className="p-6">
@@ -41,6 +81,10 @@ const ProductPage = () => {
           <div className="flex items-center space-x-8 mb-8">
             <Input
               placeholder="Search product..."
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
+              value={search}
               className={"w-full border-2 !p-3 outline-none"}
             />
             <button
@@ -52,10 +96,11 @@ const ProductPage = () => {
               Create Product
             </button>
           </div>
-          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div
+          <div className="bg-white shadow-sm sm:rounded-lg">
+            {/* <div
               className={`relative max-h-[450px] overflow-y-auto mt-4 cursor-default overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-100 z-0`}
-            >
+            > */}
+            <div>
               <table className="w-full bg-white text-left table-auto">
                 <thead className="text-sm text-gray-700 bg-white font-medium sticky top-0 shadow z-[10]">
                   <tr>
@@ -86,13 +131,13 @@ const ProductPage = () => {
                       Product
                     </th>
                     <th scope="col" className="px-2 py-3 text-sub3 font-normal">
-                      Code
+                      Price
                     </th>
                     <th scope="col" className="px-2 py-3 text-sub3 font-normal">
-                      Status
+                      Description
                     </th>
                     <th scope="col" className="px-2 py-3 text-sub3 font-normal">
-                      Created At
+                      Category
                     </th>
                     <th
                       scope="col"
@@ -139,23 +184,22 @@ const ProductPage = () => {
                             />
                           </td>
                           <td className="align-top px-2 py-4">{item.name}</td>
-                          <td className="align-top px-2 py-4">{item.price}</td>
-                          <td className="align-top px-2 py-4">-</td>
                           <td className="align-top px-2 py-4">
-                            {item.created_by}
+                            Rp{thousandFormat(item.price)}
+                          </td>
+                          <td className="align-top px-2 py-4">
+                            {item.description}
+                          </td>
+                          <td className="align-top px-2 py-4">
+                            {item.category_id}
                           </td>
                           <td className="align-top px-2 py-4">
                             <Popover className="relative">
                               <Popover.Button className="border border-base-300 rounded-md p-1 outline-none">
-                                <ReactSVG
-                                  src="/icons/line/More-vertical.svg"
-                                  height={20}
-                                  width={20}
-                                  wrapper="svg"
-                                />
+                                <MenuIcon color="gray" height={20} width={20} />
                               </Popover.Button>
 
-                              <Popover.Panel className="absolute z-[2] top-100 right-[50px] min-w-[150px] rounded-md bg-white shadow-md overflow-hidden">
+                              <Popover.Panel className="absolute z-[2] top-100 right-[60px] min-w-[150px] rounded-md bg-white shadow-md overflow-hidden">
                                 <button
                                   onClick={() =>
                                     router.push({
@@ -167,22 +211,39 @@ const ProductPage = () => {
                                   }
                                   className="py-3 px-4 text-sub1 text-base-900 border-b border-base-200 last:border-noone w-full text-left hover:bg-base-200"
                                 >
-                                  <ReactSVG
-                                    src="/icons/line/Edit.svg"
+                                  <PencilIcon
                                     height={20}
                                     width={20}
-                                    wrapper="svg"
-                                    className="inline mr-3"
+                                    className="inline mr-4 mb-1"
                                   />
                                   Edit
                                 </button>
-                                <button className="py-3 px-4 text-sub1 text-base-900 border-b border-base-200 last:border-noone w-full text-left hover:bg-base-200">
-                                  <ReactSVG
-                                    src="/icons/line/Delete.svg"
+                                <button
+                                  onClick={() => {
+                                    setSelectedRows([item.id]);
+                                    setModalDeleteShow(true);
+                                  }}
+                                  // onClick={async () => {
+                                  //   try {
+                                  //     queryClient.refetchQueries({
+                                  //       queryKey: ["product-by-user"],
+                                  //     });
+                                  //     await deleteProduct({
+                                  //       id: item.id,
+                                  //     });
+                                  //     setCurrentPage(1);
+                                  //     refetch();
+                                  //   } catch (error) {
+                                  //     console.log(error);
+                                  //     toastError("Failed Deleted");
+                                  //   }
+                                  // }}
+                                  className="py-3 px-4 text-sub1 text-base-900 border-b border-base-200 last:border-noone w-full text-left hover:bg-base-200"
+                                >
+                                  <TrashIcon
                                     height={20}
                                     width={20}
-                                    wrapper="svg"
-                                    className="inline mr-3"
+                                    className="inline mr-4 mb-1"
                                   />
                                   Delete
                                 </button>
@@ -208,6 +269,21 @@ const ProductPage = () => {
           onPageChange={setCurrentPage}
         />
       )}
+      <ModalDeleteProduct
+        moreThanOne={moreThanOne}
+        isOpen={modalDeleteShow}
+        deleted={`${selectedRows.length > 0 && selectedRows.length.toString()}`}
+        onClose={() => {
+          setMoreThanOne(false);
+          setModalDeleteShow(false);
+        }}
+        onConfirm={() => {
+          setMoreThanOne(false);
+          setModalDeleteShow(false);
+          setSelectedRows([]);
+          handleDeleteProduct();
+        }}
+      />
     </section>
   );
 };
