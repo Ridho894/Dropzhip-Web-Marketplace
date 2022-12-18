@@ -23,6 +23,7 @@ type Response = {
     from: number;
     total: number;
     per_page: number;
+    message: string;
 }
 
 const fetchProductByUser = async (page: number, params: Partial<Params> = {}) => {

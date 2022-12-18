@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       {...rest}
       className={cx(
-        "transition-colors duration-200 rounded-md font-bold",
+        "transition-colors duration-200 rounded-md font-bold disabled:cursor-not-allowed",
         "focus:outline-[1px] focus:outline-primary-700",
         sizes[size],
         {

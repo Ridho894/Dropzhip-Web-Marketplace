@@ -10,7 +10,7 @@ function ProductFeed() {
   const payload: GetProductParams = {
     limit: 100,
     sort_order: "DESC",
-    take: 10,
+    take: 11,
   };
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -21,11 +21,15 @@ function ProductFeed() {
       const promise = fetchProduct(currentPage, payload);
 
       return promise;
+    },
+    {
+      refetchOnWindowFocus: false,
     }
   );
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
   return (
     <main className="pt-4 pb-8">
       <section className="grid grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:-mt-52">
@@ -70,13 +74,16 @@ function ProductFeed() {
           />
         ))}
       </section>
-      {products && products?.total > 10 && (
-        <div className="px-4">
+      {products && products?.total > 11 && (
+        <div className="px-4 pt-4">
           <Pagination
             initialPage={products?.current_page}
             dataLength={products?.total || 0}
-            onPageChange={handlePageChange}
-            limit={10}
+            onPageChange={(page) => {
+              handlePageChange(page);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            limit={11}
             disabled={false}
           />
         </div>

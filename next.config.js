@@ -1,6 +1,7 @@
 module.exports = {
   images: {
     domains: [
+      process.env.NEXT_PUBLIC_API_DOMAIN_NAME,
       "img.freepik.com",
       "upload.wikimedia.org",
       "pbs.twimg.com",
@@ -17,5 +18,9 @@ module.exports = {
     });
 
     return config;
+  },
+  reactStrictMode: true,
+  compiler: {
+    styledComponents: true,
   },
 };

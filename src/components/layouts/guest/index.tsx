@@ -114,7 +114,9 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
           <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
             <div
               className="link cursor-pointer"
-              onClick={() => router.push("/dashboard")}
+              onClick={() => {
+                session ? router.push("/dashboard") : router.push("/login");
+              }}
             >
               <p>{session ? `Hello, ${session?.user.username}` : "Sign In"}</p>
               <p className="font md:text-sm">Account & Lists</p>

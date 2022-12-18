@@ -16,6 +16,7 @@ import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
 import { toastError } from "@/components/core/Toast";
 import deleteProduct from "@/services/products/delete.service";
 import ModalDeleteProduct from "@/components/product/ModalDeleteProduct";
+import Error from "@/components/condition/Error";
 
 const ProductPage = () => {
   // Hooks
@@ -42,6 +43,7 @@ const ProductPage = () => {
   const {
     data: products,
     isLoading,
+    isLoadingError,
     refetch,
   } = useQuery(
     ["product-by-user", JSON.stringify({ ...payload, currentPage })],
@@ -146,13 +148,19 @@ const ProductPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products?.total === 0 && (
+                  {products?.message === "Data Not Found" && (
+                    <td colSpan={99} className="mt-14 py-4">
+                      <Error />
+                    </td>
+                  )}
+                  {/* {products?.message === "Data Not Found" && (
                     <tr>
                       <td colSpan={99} className="py-4 text-center">
                         EMPTY PRODUCT
                       </td>
                     </tr>
-                  )}
+                  )} */}
+
                   {isLoading && (
                     <tr>
                       <td colSpan={99} className="py-4 text-center">

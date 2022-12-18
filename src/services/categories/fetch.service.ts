@@ -2,6 +2,7 @@ import apiClient from "@/utils/api"
 
 type Response = {
     data: {
+        id: number;
         name: string;
         slug: string;
         icon: string;
