@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 import "@/styles/globals.css";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-loading-skeleton/dist/skeleton.css";
-import AdminLayout from "@/components/layouts/admin";
+import AdminLayout from "@/components/layouts/store-admin";
 import GuestLayout from "@/components/layouts/guest";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";

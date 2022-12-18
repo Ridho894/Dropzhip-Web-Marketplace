@@ -1,18 +1,12 @@
-import { fetchCategories } from "@/services/categories/fetch.service";
-import {
-  MenuIcon,
-  SearchIcon,
-  ShoppingCartIcon,
-} from "@heroicons/react/outline";
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { ReactSVG } from "react-svg";
+import { MenuIcon, SearchIcon } from "@heroicons/react/outline";
+import { ShoppingCartIcon } from "@heroicons/react/solid";
+
+import { fetchCategories } from "@/services/categories/fetch.service";
+import { useState } from "react";
 
 type GuestLayoutProps = {
   children: React.ReactNode;
