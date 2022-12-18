@@ -16,6 +16,8 @@ type ProductProps = {
   description: string;
   category: string;
   image: string;
+  free_delivery: boolean;
+  rating: number;
 };
 
 function Product({
@@ -25,13 +27,10 @@ function Product({
   description,
   category,
   image,
+  free_delivery,
+  rating,
 }: ProductProps) {
   const dispatch = useDispatch();
-  const [rating] = useState(
-    Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
-  );
-
-  const [hasPrime] = useState(Math.random() < 0.5);
 
   const addItemToBasket = () => {
     const product = {
@@ -42,7 +41,7 @@ function Product({
       description,
       category,
       image,
-      hasPrime,
+      free_delivery,
     };
     dispatch(addToBasket(product));
   };
@@ -81,7 +80,7 @@ function Product({
       <div className="mb-5">
         <Currency quantity={price} currency="IDR" />
       </div>
-      {hasPrime && (
+      {free_delivery && (
         <div className="flex items-center space-x-2 -mt-5">
           <img
             className="w-12"

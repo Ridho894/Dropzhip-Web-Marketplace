@@ -4,7 +4,7 @@ import Seo from "@/components/Seo";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCategories } from "@/services/categories/fetch.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Select from "@/components/core/Select";
@@ -35,8 +35,11 @@ const schema = yup.object({
 });
 
 const CreateProduct = () => {
+  // Hooks
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+
+  // Form State
   const {
     control,
     formState: { errors, isValid },
@@ -66,33 +69,33 @@ const CreateProduct = () => {
     staleTime: Infinity,
   });
 
-  const payload: Payload = {
-    name: form.name,
-    slug: slugify(form.name),
-    description: form.description,
-    price: form.price,
-    image: "https://",
-    category_id: form.category_id,
-  };
-
-  const onSubmit = async () => {
-    setLoading(true);
-    try {
-      await NewProduct(payload);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-      router.push("/product");
+  const mutation = useMutation(
+    () => {
+      return NewProduct({
+        name: form.name,
+        slug: slugify(form.name),
+        description: form.description,
+        price: form.price,
+        image: "https://",
+        category_id: form.category_id,
+      });
+    },
+    {
+      onError(error) {
+        console.log(error);
+      },
+      onSuccess() {
+        router.push("/product");
+      },
     }
-  };
+  );
 
   return (
     <section className="p-6">
       <Seo templateTitle="Create Product" />
       <div className="max-w-5xl mx-auto">
         <section className="w-full space-y-4 ">
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <div className="w-full">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               htmlFor="name"
@@ -111,7 +114,7 @@ const CreateProduct = () => {
               placeholder="Product name..."
             />
             {errors.name && <p className="text-red-600 text-sm">Required</p>}
-          </form>
+          </div>
 
           <div className="w-full">
             <label
@@ -225,12 +228,12 @@ const CreateProduct = () => {
               !form.description ||
               !form.stock
             }
-            onClick={onSubmit}
+            onClick={() => mutation.mutate()}
             className={
               "focus:shadow-outline cursor-pointer rounded bg-yellow-500 py-2 px-4 font-bold text-white shadow hover:bg-yellow-400 focus:outline-none"
             }
           >
-            Submit
+            {mutation.isLoading ? "Loading..." : "Submit"}
           </Button>
         </section>
       </div>

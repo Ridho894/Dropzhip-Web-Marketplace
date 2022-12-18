@@ -44,6 +44,7 @@ function MyApp({
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
             <GuestLayout>
+              <Toaster />
               <Component {...pageProps} />
             </GuestLayout>
           </QueryClientProvider>
@@ -56,6 +57,7 @@ function MyApp({
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
             <AdminLayout>
+              <Toaster containerClassName="mt-14" />
               <Component {...pageProps} />
             </AdminLayout>
           </QueryClientProvider>

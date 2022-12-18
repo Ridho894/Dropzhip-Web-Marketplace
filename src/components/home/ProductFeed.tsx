@@ -42,6 +42,8 @@ function ProductFeed() {
             image={product.image}
             price={product.price}
             title={product.name}
+            rating={product.rating}
+            free_delivery={product.free_delivery}
           />
         ))}
         <img
@@ -59,6 +61,8 @@ function ProductFeed() {
               image={product.image}
               price={product.price}
               title={product.name}
+              rating={product.rating}
+              free_delivery={product.free_delivery}
             />
           ))}
         </div>
@@ -71,6 +75,8 @@ function ProductFeed() {
             image={product.image}
             price={product.price}
             title={product.name}
+            rating={product.rating}
+            free_delivery={product.free_delivery}
           />
         ))}
       </section>

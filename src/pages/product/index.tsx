@@ -13,10 +13,11 @@ import fetchProductByUser, {
 import { thousandFormat } from "@/utils/number";
 import { MenuIcon } from "@heroicons/react/solid";
 import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
-import { toastError } from "@/components/core/Toast";
+import { toastError, toastSuccess } from "@/components/core/Toast";
 import deleteProduct from "@/services/products/delete.service";
 import ModalDeleteProduct from "@/components/product/ModalDeleteProduct";
 import Error from "@/components/condition/Error";
+import Button from "@/components/core/Button";
 
 const ProductPage = () => {
   // Hooks
@@ -68,6 +69,7 @@ const ProductPage = () => {
       setCurrentPage(1);
       setSelectedRows([]);
       refetch();
+      toastSuccess("Success Deleted");
     } catch (error) {
       console.log(error);
       toastError("Failed Deleted");
@@ -78,7 +80,10 @@ const ProductPage = () => {
     <section className="p-6">
       <Seo templateTitle="My Products" />
       <h1 className="text-2xl font-bold">Products</h1>
-      <div className="py-12">
+      <p className="my-1 text-sm">
+        Creating product for your ecommerce online store{" "}
+      </p>
+      <div className="py-8">
         <div>
           <div className="flex items-center space-x-8 mb-8">
             <Input
@@ -87,16 +92,16 @@ const ProductPage = () => {
                 setSearch(e.target.value)
               }
               value={search}
-              className={"w-full border-2 !p-3 outline-none"}
+              className={"w-full border-2 !p-2 outline-none"}
             />
-            <button
+            <Button
               onClick={() => router.push("/product/create")}
               className={
                 "w-max bg-dropzhip_blue-light whitespace-nowrap !p-3 rounded-lg text-white text-sm !px-5 active:scale-105"
               }
             >
               Create Product
-            </button>
+            </Button>
           </div>
           <div className="bg-white shadow-sm sm:rounded-lg">
             {/* <div
@@ -148,18 +153,18 @@ const ProductPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products?.message === "Data Not Found" && (
+                  {isLoadingError && (
                     <td colSpan={99} className="mt-14 py-4">
                       <Error />
                     </td>
                   )}
-                  {/* {products?.message === "Data Not Found" && (
+                  {products?.message === "Data Not Found" && (
                     <tr>
                       <td colSpan={99} className="py-4 text-center">
                         EMPTY PRODUCT
                       </td>
                     </tr>
-                  )} */}
+                  )}
 
                   {isLoading && (
                     <tr>
