@@ -27,7 +27,7 @@ Router.events.on("routeChangeError", progress.finish);
 
 const routeWithoutLayout = ["/login", "/register", "/forgot-password"];
 
-const routeWithGuestLayout = ["/category/[slug]", "/"];
+const routeWithGuestLayout = ["/category/[slug]", "/", "/search"];
 
 const routeWithAdminLayout = [
   "/dashboard",

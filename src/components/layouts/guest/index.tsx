@@ -71,15 +71,31 @@ const footerContent = [
 ];
 
 const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
-  const {
-    data: categories,
-    isLoading,
-    isError,
-  } = useQuery(["/api/categories"], fetchCategories);
-
-  const { data: session } = useSession();
   // Hooks
   const router = useRouter();
+
+  const [searchInput, setSearchInput] = useState<string>("");
+
+  const { data: categories } = useQuery(["categories"], fetchCategories, {
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: session } = useSession();
+
+  const handleKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === "Enter") {
+      router.push({
+        pathname: "/search",
+        query: {
+          keyword: searchInput,
+        },
+      });
+      setSearchInput("");
+    }
+
+    return true;
+  };
+
   const goTop = () => {
     window.scrollTo({
       top: 0,
@@ -105,10 +121,24 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
           <div className="bg-blue-900 hover:bg-blue-800 hidden sm:flex items-center h-10 rounded-md flex-grow cursor-pointer">
             <input
               type={"text"}
+              value={searchInput}
+              onKeyDown={handleKeydown}
+              onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search..."
               className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none"
             />
-            <SearchIcon className="h-12 p-4 text-white" />
+            <SearchIcon
+              onClick={() => {
+                router.push({
+                  pathname: "/search",
+                  query: {
+                    keyword: searchInput,
+                  },
+                });
+                setSearchInput("");
+              }}
+              className="h-12 p-4 text-white"
+            />
           </div>
           {/* Right */}
           <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
