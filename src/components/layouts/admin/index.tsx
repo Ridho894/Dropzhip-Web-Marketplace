@@ -21,12 +21,12 @@ const menuItems = [
     Icon: "Grid.svg",
   },
   {
-    href: "/product/",
+    href: "/product",
     title: "Products",
     Icon: "Product.svg",
   },
   {
-    href: "/report",
+    href: "/reports",
     title: "Reports",
     Icon: "Report.svg",
   },

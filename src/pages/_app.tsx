@@ -29,7 +29,12 @@ const routeWithoutLayout = ["/login", "/register", "/forgot-password"];
 
 const routeWithGuestLayout = ["/category/[slug]", "/"];
 
-const routeWithAdminLayout = ["/dashboard", "/product", "/product/create"];
+const routeWithAdminLayout = [
+  "/dashboard",
+  "/product",
+  "/reports",
+  "/product/create",
+];
 
 const queryClient = new QueryClient();
 
