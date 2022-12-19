@@ -41,6 +41,7 @@ function ProductFeed() {
             id={i}
             image={product.image}
             price={product.price}
+            slug={product.slug}
             title={product.name}
             rating={product.rating}
             free_delivery={product.free_delivery}
@@ -61,6 +62,7 @@ function ProductFeed() {
               image={product.image}
               price={product.price}
               title={product.name}
+              slug={product.slug}
               rating={product.rating}
               free_delivery={product.free_delivery}
             />
@@ -75,6 +77,7 @@ function ProductFeed() {
             image={product.image}
             price={product.price}
             title={product.name}
+            slug={product.slug}
             rating={product.rating}
             free_delivery={product.free_delivery}
           />

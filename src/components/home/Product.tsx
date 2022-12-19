@@ -5,6 +5,7 @@ import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
 import { addToBasket } from "@/redux/slices/basketSlice";
 import { FallbackImage } from "../core/FallbackImage";
+import { useRouter } from "next/router";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -18,6 +19,7 @@ type ProductProps = {
   image: string;
   free_delivery: boolean;
   rating: number;
+  slug: string;
 };
 
 function Product({
@@ -29,8 +31,10 @@ function Product({
   image,
   free_delivery,
   rating,
+  slug,
 }: ProductProps) {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const addItemToBasket = () => {
     const product = {
@@ -46,7 +50,17 @@ function Product({
     dispatch(addToBasket(product));
   };
   return (
-    <section className="relative flex flex-col m-5 bg-white z-30 p-10 rounded-lg transform cursor-pointer transition duration-300 ease-out hover:scale-105">
+    <section
+      onClick={() =>
+        router.push({
+          pathname: "/product/[slug]",
+          query: {
+            slug: slug,
+          },
+        })
+      }
+      className="relative flex flex-col m-5 bg-white z-30 p-10 rounded-lg transform cursor-pointer transition duration-300 ease-out hover:scale-105"
+    >
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category}
       </p>
