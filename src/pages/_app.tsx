@@ -32,6 +32,7 @@ const routeWithGuestLayout = [
   "/product/[slug]",
   "/",
   "/search",
+  "/checkout",
 ];
 
 const routeWithAdminLayout = [
