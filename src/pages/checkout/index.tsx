@@ -1,12 +1,19 @@
-import Seo from "@/components/Seo";
-import CheckoutProduct from "@/components/checkout/CheckoutProduct";
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
+import { removeFromBasket, selectItems } from "@/redux/slices/basketSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+import Seo from "@/components/Seo";
+import CheckoutProduct from "@/components/checkout/CheckoutProduct";
 
 const Checkout = () => {
   const { data: session } = useSession();
+
+  const dispatch = useDispatch();
+  const basketItems = useSelector(selectItems);
+
   return (
-    <main className="bg-gray-100 h-full min-h-screen pb-4">
+    <main className="bg-gray-100 h-full pb-4">
       <Seo templateTitle="Checkout" />
       <section className="lg:flex py-10 max-w-screen-xl mx-auto">
         {/* Left */}
@@ -20,39 +27,32 @@ const Checkout = () => {
           />
           <div className="flex flex-col p-5 space-y-10 bg-white">
             <h1 className="text-3xl border-b pb-4">
-              Your Basket is Empty
-              {/* {items.length === 0 ? "Your Basket is Empty" : "Shopping Basket"} */}
+              {basketItems.length === 0
+                ? "Your Basket is Empty"
+                : "Shopping Basket"}
             </h1>
-            <CheckoutProduct
-              id={0}
-              title={""}
-              price={0}
-              description={""}
-              category={""}
-              image={""}
-              free_delivery={false}
-              rating={0}
-              slug={""}
-            />
-            {/* {items.map((item, i) => (
+            {basketItems.map((item, i) => (
               <CheckoutProduct
                 key={i}
                 id={item.id}
-                title={item.title}
+                name={item.name}
                 price={item.price}
                 description={item.description}
-                category={item.category}
+                category_id={item.category_id}
                 image={item.image}
-                free_delivery={item.hasPrime}
+                free_delivery={item.free_delivery}
+                rating={item.rating}
+                slug={item.slug}
+                onRemove={() => dispatch(removeFromBasket(i))}
               />
-            ))} */}
+            ))}
           </div>
         </div>
         {/* Right */}
         <div className={`flex flex-col bg-white p-10 border-r-2 border-l-2`}>
           <>
             <h2 className="whitespace-nowrap">
-              Subtotal (2 items):{" "}
+              Subtotal ({basketItems.length} items):{" "}
               <span className="font-bold">
                 <Currency quantity={10000} currency="IDR" />
               </span>

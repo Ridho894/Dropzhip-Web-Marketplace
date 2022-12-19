@@ -3,48 +3,54 @@ import Image from "next/image";
 import React from "react";
 import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
-import { addToBasket, removeFromBasket } from "@/redux/slices/basketSlice";
+import {
+  Basket,
+  addToBasket,
+  removeFromBasket,
+} from "@/redux/slices/basketSlice";
 
 type Props = {
   id: number;
-  title: string;
+  name: string;
   price: number;
   description: string;
-  category: string;
+  category_id: string;
   image: string;
   free_delivery: boolean;
   rating: number;
   slug: string;
+  onRemove: () => void;
 };
 
 function CheckoutProduct({
   id,
-  title,
+  name,
   price,
   rating,
   description,
-  category,
+  category_id,
   image,
   free_delivery,
   slug,
+  onRemove = () => null,
 }: Props) {
   const dispatch = useDispatch();
-  const removeItemFromBasket = () => {
-    dispatch(removeFromBasket({ id }));
-  };
+  // const removeItemFromBasket = () => {
+  //   dispatch(removeFromBasket(id));
+  // };
   const addItemToBasket = () => {
     const product = {
       id,
-      title,
+      name,
       price,
       rating,
       description,
-      category,
+      category_id,
       image,
       free_delivery,
       slug,
     };
-    dispatch(addToBasket(product));
+    dispatch(addToBasket(product as Basket));
   };
   return (
     <main className="grid grid-cols-5">
@@ -57,7 +63,7 @@ function CheckoutProduct({
         alt=".img"
       />
       <div className="col-span-3 mx-5">
-        <p>{title}</p>
+        <p>{name}</p>
         <div className="flex">
           {Array(rating).map((_, i) => (
             <StarIcon key={i} className="h-5 text-yellow-500" />
@@ -81,7 +87,7 @@ function CheckoutProduct({
         <button className="button" onClick={addItemToBasket}>
           Add to Basket
         </button>
-        <button className="button" onClick={removeItemFromBasket}>
+        <button className="button" onClick={onRemove}>
           Remove from Basket
         </button>
       </div>

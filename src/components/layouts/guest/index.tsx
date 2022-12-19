@@ -101,7 +101,6 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
     });
   };
 
-  console.log(basketItems, "basketItems");
   return (
     <main className="min-h-screen">
       <header>
@@ -158,9 +157,9 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
               className="link relative flex items-center"
               onClick={() => router.push("/checkout")}
             >
-              {/* <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-blue-900 rounded-full text-white font-bold text-center">
-              {items.length}
-            </span> */}
+              <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-blue-900 rounded-full text-white font-bold text-center">
+                {basketItems.length}
+              </span>
               <ShoppingCartIcon className="h-10" />
               <p className="hidden md:inline font md:text-sm">Basket</p>
             </div>
