@@ -114,6 +114,7 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
               height={80}
               objectFit="contain"
               className="cursor-pointer"
+              alt=".logo"
             />
           </div>
           <div className="bg-blue-900 hover:bg-blue-800 hidden sm:flex items-center h-10 rounded-md flex-grow cursor-pointer">

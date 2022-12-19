@@ -8,6 +8,7 @@ const Error = () => {
         width={300}
         height={200}
         objectFit="contain"
+        alt=".notfound"
       />
       <h1 className="font-medium text-gray-600">Whoops!</h1>
       <p className="font-normal text-gray-500">

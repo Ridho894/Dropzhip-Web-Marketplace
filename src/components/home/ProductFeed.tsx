@@ -36,13 +36,13 @@ function ProductFeed() {
         {products?.data?.data?.slice(0, 4).map((product, i) => (
           <Product
             key={i}
-            category={product.category_id}
+            category_id={product.category_id}
             description={product.description}
             id={i}
             image={product.image}
             price={product.price}
             slug={product.slug}
-            title={product.name}
+            name={product.name}
             rating={product.rating}
             free_delivery={product.free_delivery}
           />
@@ -56,12 +56,12 @@ function ProductFeed() {
           {products?.data?.data?.slice(4, 5).map((product, i) => (
             <Product
               key={i}
-              category={product.category_id}
+              category_id={product.category_id}
               description={product.description}
               id={i}
               image={product.image}
               price={product.price}
-              title={product.name}
+              name={product.name}
               slug={product.slug}
               rating={product.rating}
               free_delivery={product.free_delivery}
@@ -71,12 +71,12 @@ function ProductFeed() {
         {products?.data?.data?.slice(5, products?.total).map((product, i) => (
           <Product
             key={i}
-            category={product.category_id}
+            category_id={product.category_id}
             description={product.description}
             id={i}
             image={product.image}
             price={product.price}
-            title={product.name}
+            name={product.name}
             slug={product.slug}
             rating={product.rating}
             free_delivery={product.free_delivery}

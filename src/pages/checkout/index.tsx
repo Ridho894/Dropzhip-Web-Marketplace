@@ -21,6 +21,7 @@ const Checkout = () => {
           <img
             src="https://links.papareact.com/ikj"
             className="w-full"
+            alt=".img"
             // width={1020}
             // height={250}
             // objectFit="contain"

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { StarIcon } from "@heroicons/react/solid";
 import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
-import { addToBasket } from "@/redux/slices/basketSlice";
+import { Basket, addToBasket } from "@/redux/slices/basketSlice";
 import { FallbackImage } from "../core/FallbackImage";
 import { useRouter } from "next/router";
 
@@ -12,10 +12,10 @@ const MIN_RATING = 1;
 
 type ProductProps = {
   id: number;
-  title: string;
+  name: string;
   price: number;
   description: string;
-  category: string;
+  category_id: string;
   image: string;
   free_delivery: boolean;
   rating: number;
@@ -24,10 +24,10 @@ type ProductProps = {
 
 function Product({
   id,
-  title,
+  name,
   price,
   description,
-  category,
+  category_id,
   image,
   free_delivery,
   rating,
@@ -39,16 +39,16 @@ function Product({
   const addItemToBasket = () => {
     const product = {
       id,
-      title,
+      name,
       price,
       rating,
       description,
-      category,
+      category_id,
       image,
       free_delivery,
       slug,
     };
-    dispatch(addToBasket(product));
+    dispatch(addToBasket(product as Basket));
   };
   return (
     <section
@@ -63,7 +63,7 @@ function Product({
       className="relative flex flex-col m-5 bg-white z-30 p-10 rounded-lg transform cursor-pointer transition duration-300 ease-out hover:scale-105"
     >
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
-        {category}
+        {category_id}
       </p>
       <div className="relative h-[90px] aspect-square overflow-hidden">
         <FallbackImage
@@ -83,7 +83,7 @@ function Product({
         className="w-[200px] h-[200px] object-contain"
         alt=".img"
       /> */}
-      <h4 className="my-3">{title}</h4>
+      <h4 className="my-3">{name}</h4>
       <div className="flex">
         {Array(rating)
           .fill(5)
