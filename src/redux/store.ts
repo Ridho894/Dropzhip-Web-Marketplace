@@ -14,7 +14,7 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  basketSlice: basketSlice
+  basket: basketSlice
 });
 const persistedReducer = persistReducer(persistConfig, reducers);
 

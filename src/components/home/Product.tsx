@@ -46,6 +46,7 @@ function Product({
       category,
       image,
       free_delivery,
+      slug,
     };
     dispatch(addToBasket(product));
   };

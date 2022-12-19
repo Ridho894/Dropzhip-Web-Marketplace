@@ -7,6 +7,8 @@ import { ShoppingCartIcon } from "@heroicons/react/solid";
 
 import { fetchCategories } from "@/services/categories/fetch.service";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectItems } from "@/redux/slices/basketSlice";
 
 type GuestLayoutProps = {
   children: React.ReactNode;
@@ -68,6 +70,8 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
   // Hooks
   const router = useRouter();
 
+  const basketItems = useSelector(selectItems);
+
   const [searchInput, setSearchInput] = useState<string>("");
 
   const { data: categories } = useQuery(["categories"], fetchCategories, {
@@ -97,6 +101,7 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
     });
   };
 
+  console.log(basketItems, "basketItems");
   return (
     <main className="min-h-screen">
       <header>

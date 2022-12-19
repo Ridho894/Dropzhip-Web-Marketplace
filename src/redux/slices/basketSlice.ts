@@ -1,6 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
-const initialState = {
+export type Basket = {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  category_id: string;
+  image: string;
+  free_delivery: boolean;
+  rating: number;
+  slug: string;
+}
+
+interface CounterState {
+  items: Basket[];
+}
+
+const initialState: CounterState = {
   items: [],
 };
 
@@ -8,22 +25,13 @@ export const basketSlice = createSlice({
   name: "basket",
   initialState,
   reducers: {
-    addToBasket: (state, action) => {
+    addToBasket(state: CounterState, action: PayloadAction<Basket>) {
       state.items = [...state.items, action.payload];
     },
-    removeFromBasket: (state, action) => {
-      const index = state.items.findIndex(
-        (basketItem) => basketItem.id === action.payload.id
-      );
-      let newBasket = [...state.items];
-      if (index >= 0) {
-        newBasket.splice(index, 1);
-      } else {
-        console.warn(
-          `Can't remove product (id: ${action.payload.id}) as it's not in basket`
-        );
-      }
-      state.items = newBasket;
+    removeFromBasket(state: CounterState, action: PayloadAction<number>) {
+      state.items = [
+        ...state.items.filter((_, index) => index !== action.payload),
+      ];
     },
   },
 });
@@ -31,8 +39,8 @@ export const basketSlice = createSlice({
 export const { addToBasket, removeFromBasket } = basketSlice.actions;
 
 // Selectors - This is how we pull information from the Global store slice
-export const selectItems = (state) => state.basket.items;
-export const selectTotal = (state) =>
-  state.basket.items.reduce((total, item) => total + item.price, 0);
+export const selectItems = (state: RootState) => state.basket.items;
+// export const selectTotal = (state) =>
+//   state.basket.items.reduce((total:number, item:RootState['basket']) => total + item.items.map((item) => item.price), 0);
 
 export default basketSlice.reducer;

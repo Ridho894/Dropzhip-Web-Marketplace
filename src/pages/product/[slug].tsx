@@ -1,11 +1,14 @@
 import Seo from "@/components/Seo";
 import CommentsSection from "@/components/product/CommentsSection";
+import { Basket, addToBasket } from "@/redux/slices/basketSlice";
 import fetchDetailProduct from "@/services/products/fetch-detail.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 const DetailProduct = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const slug = router.query.slug as string;
 
@@ -181,8 +184,13 @@ const DetailProduct = () => {
                 <span className="title-font font-medium text-2xl text-gray-900">
                   $58.00
                 </span>
-                <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
-                  Button
+                <button
+                  onClick={() => {
+                    dispatch(addToBasket(products?.data as Basket));
+                  }}
+                  className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
+                >
+                  Add to cart
                 </button>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg
