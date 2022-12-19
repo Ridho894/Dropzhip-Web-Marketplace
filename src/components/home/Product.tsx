@@ -65,7 +65,7 @@ function Product({
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category_id}
       </p>
-      <div className="relative h-[90px] aspect-square overflow-hidden">
+      <div className="relative h-full max-h-[200px] aspect-square overflow-hidden">
         <FallbackImage
           quality={100}
           layout="fill"
