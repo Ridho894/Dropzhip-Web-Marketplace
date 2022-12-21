@@ -5,12 +5,17 @@ export type Payload = {
     slug: string;
     description: string;
     price: string;
-    image: string;
+    image: File;
+    image_remove: number; // 1|0
     category_id: string
 }
 
 const createProduct = async (payload: Payload) => {
-    const { data } = await apiClient.post<Response>('/product/create', payload)
+    const { data } = await apiClient.post<Response>('/product/create', payload, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    })
     return data
 }
 

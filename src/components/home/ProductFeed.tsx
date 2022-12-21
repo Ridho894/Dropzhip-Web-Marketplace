@@ -26,9 +26,12 @@ function ProductFeed() {
       refetchOnWindowFocus: false,
     }
   );
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  console.log(products, "products");
 
   return (
     <main className="pt-4 pb-8">

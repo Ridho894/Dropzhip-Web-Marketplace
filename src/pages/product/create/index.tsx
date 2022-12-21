@@ -1,7 +1,7 @@
 import { slugify } from "@/helpers/slugify";
 import Router, { useRouter } from "next/router";
 import Seo from "@/components/Seo";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Select from "@/components/core/Select";
 import NewProduct, { Payload } from "@/services/products/create.service";
 import Button from "@/components/core/Button";
+import Image from "next/image";
+import { useSelector } from "react-redux";
+import { getPicture } from "@/redux/slices/pictureSlice";
+import Avatar from "@/components/common/Avatar";
+import { ReactSVG } from "react-svg";
 
 type Form = {
   name: string;
@@ -17,7 +22,7 @@ type Form = {
   description: string;
   price: string;
   stock: string;
-  image: string;
+  image: File | null;
   category_id: string;
 };
 
@@ -35,9 +40,17 @@ const schema = yup.object({
 });
 
 const CreateProduct = () => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   // Hooks
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  // Redux
+  const picture = useSelector(getPicture);
+
+  //
+  const [name, setName] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   // Form State
   const {
@@ -55,7 +68,7 @@ const CreateProduct = () => {
       name: "",
       slug: "",
       description: "",
-      image: "",
+      image: null,
       price: "",
       stock: "",
       category_id: "",
@@ -69,14 +82,22 @@ const CreateProduct = () => {
     staleTime: Infinity,
   });
 
+  const dataURLtoFile = async (dataurl: string) => {
+    const blob = await (await fetch(dataurl)).blob();
+    const file = new File([blob], "avatar.jpg", { type: "image/jpeg" });
+    return file;
+  };
+
   const mutation = useMutation(
-    () => {
+    async () => {
+      const productImage = await dataURLtoFile(selectedFile);
       return NewProduct({
         name: form.name,
         slug: slugify(form.name),
         description: form.description,
         price: form.price,
-        image: "https://",
+        image: productImage,
+        image_remove: 0,
         category_id: form.category_id,
       });
     },
@@ -90,11 +111,52 @@ const CreateProduct = () => {
     }
   );
 
+  const [selectedFile, setSelectedFile] = useState<string>("");
+
+  const addImageToPost = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+
+    const file = e.target.files && e.target.files[0];
+
+    if (!file) return;
+
+    reader.readAsDataURL(file);
+    reader.onload = (readerEvent) => {
+      setSelectedFile(readerEvent.target?.result as string);
+    };
+  };
+
   return (
     <section className="p-6">
       <Seo templateTitle="Create Product" />
       <div className="max-w-5xl mx-auto">
-        <section className="w-full space-y-4 ">
+        <section className="w-full space-y-4">
+          <div className="relative flex items-center justify-center">
+            {selectedFile ? (
+              <Image
+                alt={name}
+                width={80}
+                height={80}
+                className="rounded-full object-cover object-center"
+                src={selectedFile}
+              />
+            ) : (
+              <Button
+                onClick={() => {
+                  inputRef.current?.click();
+                }}
+                className="!bg-gray-100 hover:!bg-gray-200 w-36 h-36 p-1 rounded-full cursor-pointer"
+              >
+                <input
+                  onChange={addImageToPost}
+                  type={"file"}
+                  accept={".png, .jpg, .jpeg"}
+                  className="hidden"
+                  ref={inputRef}
+                />
+              </Button>
+            )}
+          </div>
           <div className="w-full">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"

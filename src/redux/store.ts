@@ -6,6 +6,7 @@ import thunk from "redux-thunk";
 
 // Slices
 import basketSlice from "./slices/basketSlice"
+import pictureSlice from "./slices/pictureSlice";
 
 const persistConfig = {
   key: "root",
@@ -14,7 +15,8 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  basket: basketSlice
+  basket: basketSlice,
+  picture: pictureSlice
 });
 const persistedReducer = persistReducer(persistConfig, reducers);
 
