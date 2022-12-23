@@ -65,7 +65,7 @@ function Product({
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category_id}
       </p>
-      {/* <div className="relative h-full max-h-[200px] aspect-square overflow-hidden">
+      <div className="relative h-full max-h-[200px] aspect-square overflow-hidden">
         <FallbackImage
           quality={100}
           layout="fill"
@@ -77,12 +77,12 @@ function Product({
           src={image}
           alt=""
         />
-      </div> */}
-      <img
+      </div>
+      {/* <img
         src={image}
         className="w-[200px] h-[200px] object-contain"
         alt=".img"
-      />
+      /> */}
       <h4 className="my-3">{name}</h4>
       <div className="flex">
         {Array(rating)

@@ -176,7 +176,7 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
             <a
               className="link hover:underline"
               key={i}
-              href={`/category/${item.slug}`}
+              href={`/category/${item.id}`}
             >
               {item.name}
             </a>

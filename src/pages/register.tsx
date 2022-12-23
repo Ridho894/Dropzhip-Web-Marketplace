@@ -2,7 +2,9 @@ import Button from "@/components/core/Button";
 import Checkbox from "@/components/core/Checkbox";
 import Input from "@/components/core/Input";
 import Seo from "@/components/Seo";
+import { toastSuccess } from "@/components/core/Toast";
 import env from "@/config/env";
+import fetchRegister from "@/services/auth/register.service";
 import fetchSignin from "@/services/auth/signin.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useQueryClient } from "@tanstack/react-query";
@@ -22,17 +24,20 @@ import WarningIcon from "~/icons/duotone/Warning.svg";
 import CloseIcon from "~/icons/line/Close.svg";
 
 export interface IFormInputs {
+  name: string;
+  username: string;
   email: string;
   password: string;
-  google_recaptcha: string;
 }
 
 const schema = yup.object({
+  name: yup.string().required(),
+  username: yup.string().required(),
   email: yup.string().required(),
   password: yup.string().required(),
 });
 
-const Login = () => {
+const Register = () => {
   // hooks
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -49,9 +54,10 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
+  const name = watch("name");
+  const username = watch("username");
   const email = watch("email");
   const password = watch("password");
-  const googleRecaptcha = watch("google_recaptcha");
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordShown, setIsPasswordShown] = useState<Boolean>(false);
@@ -60,31 +66,25 @@ const Login = () => {
     setIsLoading(true);
     setShowError(false);
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: data.email,
-      password: data.password,
-      gRecaptchaToken: data.google_recaptcha,
-    });
-
-    if (!result?.ok) {
+    try {
+      await fetchRegister({
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
+    } catch (error) {
+      console.log(error);
       setShowError(true);
       setIsLoading(false);
-      return;
+    } finally {
+      toastSuccess("Success create user");
+      router.push("/login");
     }
-    let bcrypt = require("bcryptjs");
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(data.password, salt);
-
-    Cookies.set("dropzhip_build", hash);
-    // clear all react query cache
-    queryClient.clear();
-
-    router.push("/dashboard");
   };
   return (
     <>
-      <Seo templateTitle="Login" />
+      <Seo templateTitle="Register" />
       <div className="flex min-h-screen">
         {/* Left  */}
         <div className="relative w-full z-0 overflow-hidden flex flex-col">
@@ -128,6 +128,40 @@ const Login = () => {
               )}
 
               <div className="space-y-5">
+                <div className="space-y-1">
+                  <p className="text-base-800 font-medium text-sub2">Name</p>
+                  <Input
+                    type="text"
+                    placeholder="Please enter your name"
+                    error={errors.name != null}
+                    onChange={(e) => {
+                      setValue("name", e.target.value);
+                    }}
+                  />
+                  {errors.name && (
+                    <div className="text-red-600 text-sub3">
+                      Name is required
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-1">
+                  <p className="text-base-800 font-medium text-sub2">
+                    Username
+                  </p>
+                  <Input
+                    type="text"
+                    placeholder="Please enter your username"
+                    error={errors.username != null}
+                    onChange={(e) => {
+                      setValue("username", e.target.value);
+                    }}
+                  />
+                  {errors.username && (
+                    <div className="text-red-600 text-sub3">
+                      Username is required
+                    </div>
+                  )}
+                </div>
                 <div className="space-y-1">
                   <p className="text-base-800 font-medium text-sub2">
                     Email Address
@@ -174,55 +208,7 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="py-8 flex">
-                <div className="flex items-center mr-6">
-                  <Checkbox id="remember" name="remember" />
-                  <label
-                    htmlFor="remember"
-                    className="text-sub2 font-medium text-base-800"
-                  >
-                    Remember Me
-                  </label>
-                </div>
-                {/* <div className="inline-block">
-                <Checkbox id="stay_signed" name="stay_signed" />
-                <label
-                  htmlFor="stay_signed"
-                  className="text-sub2 font-medium text-base-800"
-                >
-                  Stay signed in
-                </label>
-              </div> */}
-              </div>
-
-              <div className="pb-4">
-                <ReCAPTCHA
-                  className="w-full"
-                  sitekey={env.GOOGLE_RECAPTCHA_KEY}
-                  onChange={(token) => {
-                    if (token) {
-                      setValue("google_recaptcha", token);
-                    }
-                  }}
-                />
-              </div>
-
-              <Button
-                type="submit"
-                full
-                disabled={!email || !password || !googleRecaptcha || isLoading}
-                className="mb-4 !bg-dropzhip_blue-light"
-              >
-                Log In
-              </Button>
-
-              <Button
-                type="button"
-                onClick={() => router.push("/register")}
-                full
-                variant="secondary"
-                className="mb-4"
-              >
+              <Button full className="my-8">
                 Register
               </Button>
 
@@ -238,23 +224,9 @@ const Login = () => {
             </form>
           </div>
         </div>
-
-        {/* Right  */}
-        {/* <div className="hidden md:block min-w-[590px] relative overflow-hidden z-0">
-          <div className="h-full bg-red-700">
-            <Image
-              src="/images/login.jpg"
-              height={100}
-              objectFit="cover"
-              width={200}
-              quality={100}
-              alt=""
-            />
-          </div>
-        </div> */}
       </div>
     </>
   );
 };
 
-export default Login;
+export default Register;

@@ -39,7 +39,7 @@ const DetailProduct = () => {
             <img
               alt="ecommerce"
               className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-              src="https://www.whitmorerarebooks.com/pictures/medium/2465.jpg"
+              src={products?.data?.image}
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
@@ -54,6 +54,7 @@ const DetailProduct = () => {
                     .fill(rating)
                     .map((_, i) => (
                       <svg
+                        key={i}
                         fill="currentColor"
                         stroke="currentColor"
                         strokeLinecap="round"
@@ -71,6 +72,7 @@ const DetailProduct = () => {
                         .fill(5 - rating)
                         .map((_, i) => (
                           <svg
+                            key={i}
                             fill="none"
                             stroke="currentColor"
                             strokeLinecap="round"

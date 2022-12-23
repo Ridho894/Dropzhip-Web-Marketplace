@@ -6,7 +6,7 @@ import Seo from "@/components/Seo";
 import { useRouter } from "next/router";
 import { useEffect, useState, Fragment, ChangeEvent } from "react";
 import { ReactSVG } from "react-svg";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchProductByUser, {
   Params as GetProductParams,
 } from "@/services/products/fetch-by-user.service";
@@ -58,23 +58,23 @@ const ProductPage = () => {
     }
   );
 
-  const handleDeleteProduct = async () => {
-    try {
-      queryClient.refetchQueries({
-        queryKey: ["product-by-user"],
-      });
-      await deleteProduct({
+  const handleDeleteProduct = useMutation(
+    async () => {
+      return deleteProduct({
         id: selectedRows,
       });
-      setCurrentPage(1);
-      setSelectedRows([]);
-      refetch();
-      toastSuccess("Success Deleted");
-    } catch (error) {
-      console.log(error);
-      toastError("Failed Deleted");
+    },
+    {
+      onError(error) {
+        console.log(error);
+      },
+      onSuccess() {
+        queryClient.refetchQueries({
+          queryKey: ["product-by-user"],
+        });
+      },
     }
-  };
+  );
 
   return (
     <section className="p-6">
@@ -119,7 +119,7 @@ const ProductPage = () => {
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                           if (e.target.checked) {
                             setSelectedRows(
-                              products?.data?.data?.map((product, i) => i) ?? []
+                              products?.data?.map((product, i) => i) ?? []
                             );
                           } else {
                             setSelectedRows([]);
@@ -176,7 +176,7 @@ const ProductPage = () => {
 
                   {products && products?.total > 0 && (
                     <Fragment>
-                      {products?.data?.data?.map((item, index) => (
+                      {products?.data?.map((item, index) => (
                         <tr
                           className="bg-white border-b even:bg-gray-50"
                           key={index}
@@ -215,12 +215,7 @@ const ProductPage = () => {
                               <Popover.Panel className="absolute z-[2] top-100 right-[60px] min-w-[150px] rounded-md bg-white shadow-md overflow-hidden">
                                 <button
                                   onClick={() =>
-                                    router.push({
-                                      pathname: "/product/edit",
-                                      query: {
-                                        id: item.name,
-                                      },
-                                    })
+                                    router.push(`/product/edit/${item.id}`)
                                   }
                                   className="py-3 px-4 text-sub1 text-base-900 border-b border-base-200 last:border-noone w-full text-left hover:bg-base-200"
                                 >
@@ -294,7 +289,7 @@ const ProductPage = () => {
           setMoreThanOne(false);
           setModalDeleteShow(false);
           setSelectedRows([]);
-          handleDeleteProduct();
+          handleDeleteProduct.mutate();
         }}
       />
     </section>

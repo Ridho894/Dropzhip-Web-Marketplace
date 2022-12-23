@@ -13,7 +13,7 @@ type ToastProps = {
 };
 
 const colors = {
-  success: "bg-green-600",
+  success: "bg-green-400",
   error: "bg-red-600",
   warning: "bg-yellow-600",
   loading: "bg-green-600",
@@ -28,12 +28,12 @@ export const Toast: React.FC<ToastProps> = ({
     <div
       className={`${visible ? "animate-enter" : "animate-leave"} ${
         colors[type]
-      } shadow-lg rounded-lg pointer-events-auto flex text-base-100 py-2 px-3 items-center gap-2`}
+      } shadow-lg rounded-lg pointer-events-auto flex text-white py-2 px-3 items-center gap-2`}
     >
       {type === "success" && <CheckIcon height={16} width={16} />}
       {type === "error" && <CloseIcon height={16} width={16} />}
       {type === "warning" && <WarningIcon height={16} width={16} />}
-      <span className="text-sub2 font-medium">{message}</span>
+      <span className="text-sub2 font-medium mb-1">{message}</span>
     </div>
   );
 };

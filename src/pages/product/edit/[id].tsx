@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import * as yup from "yup";
@@ -16,6 +16,7 @@ import { slugify } from "@/helpers/slugify";
 import { fetchCategories } from "@/services/categories/fetch.service";
 import NewProduct, { Payload } from "@/services/products/create.service";
 import { getPicture } from "@/redux/slices/pictureSlice";
+import fetchProductWantToEdit from "@/services/products/fetch-data-edit.service";
 
 type Form = {
   name: string;
@@ -40,11 +41,18 @@ const schema = yup.object({
   ),
 });
 
-const CreateProduct = () => {
+const EditProduct = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   // Hooks
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const { refine } = router.query;
+  const idProduct = parseInt(router.query.id as string);
+
+  const { data: product } = useQuery(["product-edit", idProduct], () =>
+    fetchProductWantToEdit(idProduct)
+  );
 
   // Redux
   const picture = useSelector(getPicture);
@@ -127,19 +135,29 @@ const CreateProduct = () => {
     };
   };
 
+  useEffect(() => {
+    if (!product) return;
+    setValue("name", product?.data?.name);
+    setValue("description", product?.data?.description);
+    setValue("price", product?.data?.price.toString());
+    setValue("stock", product?.data?.stock.toString());
+    // setSelectedFile(product?.data?.image);
+    setValue("category_id", product?.data?.category_id);
+  }, [product]);
+
+  console.log(product);
+
   return (
     <section className="p-6">
       <Seo templateTitle="Create Product" />
       <div className="max-w-5xl mx-auto">
         <section className="w-full space-y-4">
           <div className="relative flex items-center justify-center">
-            {selectedFile ? (
-              <Image
+            {product?.data?.image ? (
+              <img
                 alt={name}
-                width={80}
-                height={80}
-                className="rounded-full object-cover object-center"
-                src={selectedFile}
+                className="rounded-full h-40 w-40 object-cover object-center"
+                src={product?.data?.image}
               />
             ) : (
               <Button
@@ -306,4 +324,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default EditProduct;

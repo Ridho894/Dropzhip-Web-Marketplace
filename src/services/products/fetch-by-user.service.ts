@@ -9,16 +9,14 @@ export type Params = {
 
 type Response = {
     data: {
-        data: {
-            id: number;
-            name: string;
-            description: string;
-            price: number;
-            image: string;
-            category_id: string;
-            created_by: string
-        }[];
-    }
+        id: number;
+        name: string;
+        description: string;
+        price: number;
+        image: string;
+        category_id: string;
+        created_by: string
+    }[];
     current_page: number;
     from: number;
     total: number;

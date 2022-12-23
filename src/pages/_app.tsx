@@ -28,7 +28,7 @@ Router.events.on("routeChangeError", progress.finish);
 const routeWithoutLayout = ["/login", "/register", "/forgot-password"];
 
 const routeWithGuestLayout = [
-  "/category/[slug]",
+  "/category/[id]",
   "/product/[slug]",
   "/",
   "/search",
@@ -40,6 +40,7 @@ const routeWithAdminLayout = [
   "/product",
   "/reports",
   "/product/create",
+  "/product/edit/[id]",
 ];
 
 const queryClient = new QueryClient();
@@ -68,7 +69,7 @@ function MyApp({
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
             <AdminLayout>
-              <Toaster containerClassName="mt-14" />
+              <Toaster containerClassName="" />
               <Component {...pageProps} />
             </AdminLayout>
           </QueryClientProvider>
@@ -80,6 +81,7 @@ function MyApp({
     <SessionProvider session={session}>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
+          <Toaster containerClassName="" />
           <Component {...pageProps} />
         </QueryClientProvider>
       </Provider>
