@@ -10,8 +10,10 @@ const Checkbox: React.FC<CheckboxProps> = ({ className, ...rest }) => {
       type="checkbox"
       className={cx(
         `border-base-500 ${
-          rest.disabled ? "text-base-600" : "text-primary-600 cursor-pointer"
-        }  focus:outline-2 focus:outline-primary-600 ring-0 focus:ring-0 focus:ring-offset-0 mr-2 rounded-md outline-none h-5 w-5 disabled:bg-base-400`,
+          rest.disabled
+            ? "text-gray-600"
+            : "text-dropzhip_blue-light cursor-pointer"
+        }  focus:outline-2 focus:outline-droptext-dropzhip_blue-light ring-0 focus:ring-0 focus:ring-offset-0 mr-2 rounded-md outline-none h-5 w-5 disabled:bg-base-400`,
         className
       )}
     />

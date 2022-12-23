@@ -45,7 +45,6 @@ const ProductPage = () => {
     data: products,
     isLoading,
     isLoadingError,
-    refetch,
   } = useQuery(
     ["product-by-user", JSON.stringify({ ...payload, currentPage })],
     () => {
@@ -61,7 +60,7 @@ const ProductPage = () => {
   const handleDeleteProduct = useMutation(
     async () => {
       return deleteProduct({
-        id: selectedRows,
+        ids: selectedRows,
       });
     },
     {
@@ -119,7 +118,8 @@ const ProductPage = () => {
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                           if (e.target.checked) {
                             setSelectedRows(
-                              products?.data?.map((product, i) => i) ?? []
+                              products?.data.map((product, i) => product.id) ??
+                                []
                             );
                           } else {
                             setSelectedRows([]);
@@ -183,17 +183,19 @@ const ProductPage = () => {
                         >
                           <td className="align-top px-2 py-4">
                             <Checkbox
-                              onChange={(e) => {
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => {
                                 if (e.target.checked) {
-                                  setSelectedRows([...selectedRows, index]);
+                                  setSelectedRows([...selectedRows, item.id]);
                                 } else {
                                   const newSelectedRows = selectedRows.filter(
-                                    (i) => i !== index
+                                    (i) => i !== i
                                   );
                                   setSelectedRows(newSelectedRows);
                                 }
                               }}
-                              checked={selectedRows.includes(index)}
+                              checked={selectedRows.includes(item.id)}
                             />
                           </td>
                           <td className="align-top px-2 py-4">{item.name}</td>
@@ -277,6 +279,36 @@ const ProductPage = () => {
           onPageChange={setCurrentPage}
         />
       )}
+
+      {/* Bottom bar tool  */}
+      {selectedRows.length > 0 && (
+        <div className="sticky left-0 bottom-6 p-3 px-5 bg-yellow-500 text-white flex justify-between items-center w-full rounded-lg">
+          <div className="flex-1">
+            <span className="text-sub2">
+              {selectedRows.length} Selected Data
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                setMoreThanOne(true);
+                setModalDeleteShow(true);
+              }}
+              className="px-3 py-2 border border-base-100 rounded-md text-sub3 hover:bg-base-100 hover:text-backgroundDark-200"
+            >
+              <ReactSVG
+                src="/icons/line/Delete.svg"
+                height={18}
+                width={18}
+                wrapper="svg"
+                className="inline mr-2 mb-1"
+              />
+              Delete
+            </button>
+          </div>
+        </div>
+      )}
+
       <ModalDeleteProduct
         moreThanOne={moreThanOne}
         isOpen={modalDeleteShow}

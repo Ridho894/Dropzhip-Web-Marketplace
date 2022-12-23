@@ -1,7 +1,7 @@
 import apiClient from "@/utils/api"
 
 type Payload = {
-    id: number[]
+    ids: number[]
 }
 
 const deleteProduct = async (payload: Payload) => {
