@@ -36,32 +36,22 @@ function Product({
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const addItemToBasket = () => {
-    const product = {
-      id,
-      name,
-      price,
-      rating,
-      description,
-      category_id,
-      image,
-      free_delivery,
-      slug,
-    };
-    dispatch(addToBasket(product as Basket));
-  };
+  // const addItemToBasket = () => {
+  //   const product = {
+  //     id,
+  //     name,
+  //     price,
+  //     rating,
+  //     description,
+  //     category_id,
+  //     image,
+  //     free_delivery,
+  //     slug,
+  //   };
+  //   dispatch(addToBasket(product as Basket));
+  // };
   return (
-    <section
-      onClick={() =>
-        router.push({
-          pathname: "/product/[slug]",
-          query: {
-            slug: slug,
-          },
-        })
-      }
-      className="relative flex flex-col m-5 bg-white z-30 p-10 rounded-lg transform cursor-pointer transition duration-300 ease-out hover:scale-105"
-    >
+    <section className="relative flex flex-col m-5 bg-white z-30 p-10 rounded-lg transform cursor-pointer transition duration-300 ease-out hover:scale-105">
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category_id}
       </p>
@@ -105,8 +95,18 @@ function Product({
           <p className="text-xs text-gray-500">FREE Next-day Delivery</p>
         </div>
       )}
-      <button onClick={addItemToBasket} className="mt-auto button">
-        Add to Basket
+      <button
+        onClick={() =>
+          router.push({
+            pathname: "/product/[slug]",
+            query: {
+              slug: slug,
+            },
+          })
+        }
+        className="mt-auto button"
+      >
+        See Details
       </button>
     </section>
   );

@@ -12,6 +12,7 @@ type Response = {
         created_by: string
         rating: number;
         free_delivery: boolean;
+        stock: number;
     }
 }
 

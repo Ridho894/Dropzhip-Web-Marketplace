@@ -118,8 +118,9 @@ const ProductPage = () => {
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                           if (e.target.checked) {
                             setSelectedRows(
-                              products?.data.map((product, i) => product.id) ??
-                                []
+                              products?.data?.data?.map(
+                                (product, i) => product.id
+                              ) ?? []
                             );
                           } else {
                             setSelectedRows([]);
@@ -176,7 +177,7 @@ const ProductPage = () => {
 
                   {products && products?.total > 0 && (
                     <Fragment>
-                      {products?.data?.map((item, index) => (
+                      {products?.data?.data?.map((item, index) => (
                         <tr
                           className="bg-white border-b even:bg-gray-50"
                           key={index}

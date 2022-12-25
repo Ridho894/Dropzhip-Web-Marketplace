@@ -1,6 +1,10 @@
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
-import { removeFromBasket, selectItems } from "@/redux/slices/basketSlice";
+import {
+  removeFromBasket,
+  selectItems,
+  selectTotal,
+} from "@/redux/slices/basketSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import Seo from "@/components/Seo";
@@ -11,6 +15,7 @@ const Checkout = () => {
 
   const dispatch = useDispatch();
   const basketItems = useSelector(selectItems);
+  const total = useSelector(selectTotal);
 
   return (
     <main className="bg-gray-100 h-full pb-4">
@@ -55,7 +60,7 @@ const Checkout = () => {
             <h2 className="whitespace-nowrap">
               Subtotal ({basketItems.length} items):{" "}
               <span className="font-bold">
-                <Currency quantity={10000} currency="IDR" />
+                <Currency quantity={total} currency="IDR" />
               </span>
             </h2>
             <button

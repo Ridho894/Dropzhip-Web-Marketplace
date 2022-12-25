@@ -86,7 +86,10 @@ const DetailProduct = () => {
                         ))}
                     </Fragment>
                   )}
-                  <span className="text-gray-600 ml-3">2 Reviews</span>
+                  <span className="text-gray-600 ml-3">
+                    {products?.data?.stock || 0}{" "}
+                    {products?.data?.stock! > 0 ? "Stocks" : "Stock"}
+                  </span>
                 </span>
                 <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200">
                   <a className="text-gray-500">
@@ -171,7 +174,7 @@ const DetailProduct = () => {
                   onClick={() => {
                     dispatch(addToBasket(products?.data as Basket));
                   }}
-                  className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
+                  className="flex ml-auto text-white border-0 py-2 px-6 focus:outline-none rounded"
                 >
                   Add to cart
                 </Button>
