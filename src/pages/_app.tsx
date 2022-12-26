@@ -33,6 +33,8 @@ const routeWithGuestLayout = [
   "/",
   "/search",
   "/checkout",
+  "/success",
+  "/orders",
 ];
 
 const routeWithAdminLayout = [

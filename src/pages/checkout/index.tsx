@@ -6,9 +6,14 @@ import {
   selectTotal,
 } from "@/redux/slices/basketSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
 
 import Seo from "@/components/Seo";
 import CheckoutProduct from "@/components/checkout/CheckoutProduct";
+import env from "@/config/env";
+import axios from "axios";
+
+const stripePromise = loadStripe(env.STRIPE_PUBLIC_KEY);
 
 const Checkout = () => {
   const { data: session } = useSession();
@@ -16,6 +21,20 @@ const Checkout = () => {
   const dispatch = useDispatch();
   const basketItems = useSelector(selectItems);
   const total = useSelector(selectTotal);
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+    const checkSession = await axios.post("/api/create-checkout-session", {
+      items: basketItems,
+      email: session?.user.email,
+    });
+    const result = await stripe!.redirectToCheckout({
+      sessionId: checkSession.data.id,
+    });
+    if (result.error) {
+      alert(result.error.message);
+    }
+  };
 
   return (
     <main className="bg-gray-100 h-full pb-4">
@@ -64,7 +83,7 @@ const Checkout = () => {
               </span>
             </h2>
             <button
-              // onClick={createCheckoutSession}
+              onClick={createCheckoutSession}
               role={"link"}
               disabled={!session}
               className={`button mt-2 ${
