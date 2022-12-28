@@ -1,11 +1,31 @@
-import { GetServerSidePropsContext } from "next";
-import { getSession, useSession } from "next-auth/react";
+import Seo from "@/components/Seo";
+import Order from "@/components/order/Order";
+import fetchOrder from "@/services/orders/fetch.service";
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
-const Orders = ({ orders }: any) => {
+const Orders = () => {
   const { data: session } = useSession();
+  // Fetch data from API
+  const {
+    data: orders,
+    isLoading,
+    isLoadingError,
+  } = useQuery(
+    ["order-by-user"],
+    () => {
+      const promise = fetchOrder();
+
+      return promise;
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
   return (
     <main>
-      <section className="max-w-screen-lg mx-auto p-10">
+      <Seo templateTitle="Orders" />
+      <section className="max-w-screen-xl mx-auto p-10">
         <h1 className="text-3xl border-b mb-2 pb-1 border-yellow-400">
           Your Orders
         </h1>
@@ -15,18 +35,21 @@ const Orders = ({ orders }: any) => {
           <h2>Please sign in to see your orders</h2>
         )}
         <div className="mt-5 space-y-4">
-          {/* {orders?.map((order) => (
+          {orders?.data?.map((order) => (
             <Order
               key={order.id}
               id={order.id}
-              amount={order.amount}
-              amountShipping={order.amountShipping}
-              items={order.items}
-              timestamp={order.timestamp}
-              images={order.images}
+              price={order.price}
+              total={order.total}
+              totalItems={orders.data?.length}
+              product_name={order.product_name}
+              quantity={order.quantity}
+              product_image={order.product_image}
+              timestamp={order.created_at}
+              // timestamp={order.timestamp}
+              // images={order.images}
             />
-          ))} */}
-          <h1>orders</h1>
+          ))}
         </div>
       </section>
     </main>
@@ -34,18 +57,3 @@ const Orders = ({ orders }: any) => {
 };
 
 export default Orders;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-  // Get the users logged in credentials...
-  const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
-  }
-  return {
-    props: {},
-  };
-}
