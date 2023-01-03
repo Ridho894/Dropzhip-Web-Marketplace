@@ -10,10 +10,9 @@ import { loadStripe } from "@stripe/stripe-js";
 
 import Seo from "@/components/Seo";
 import CheckoutProduct from "@/components/checkout/CheckoutProduct";
-import env from "@/config/env";
 import axios from "axios";
 
-const stripePromise = loadStripe(env.STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(process.env.stripe_public_key!);
 
 const Checkout = () => {
   const { data: session } = useSession();
@@ -23,16 +22,20 @@ const Checkout = () => {
   const total = useSelector(selectTotal);
 
   const createCheckoutSession = async () => {
-    const stripe = await stripePromise;
-    const checkSession = await axios.post("/api/create-checkout-session", {
-      items: basketItems,
-      email: session?.user.email,
-    });
-    const result = await stripe!.redirectToCheckout({
-      sessionId: checkSession.data.id,
-    });
-    if (result.error) {
-      alert(result.error.message);
+    try {
+      const stripe = await stripePromise;
+      const checkSession = await axios.post("/api/create-checkout-session", {
+        items: basketItems,
+        email: session?.user.email,
+      });
+      return await stripe?.redirectToCheckout({
+        sessionId: checkSession.data.id,
+      });
+      // if (result?.error) {
+      //   alert(result?.error.message);
+      // }
+    } catch (error) {
+      console.log(error, "error");
     }
   };
 
@@ -61,7 +64,7 @@ const Checkout = () => {
                 key={i}
                 id={item.id}
                 name={item.name}
-                price={item.price}
+                price={item.price || 0}
                 description={item.description}
                 category_id={item.category_id}
                 image={item.image}
@@ -79,13 +82,13 @@ const Checkout = () => {
             <h2 className="whitespace-nowrap">
               Subtotal ({basketItems.length} items):{" "}
               <span className="font-bold">
-                <Currency quantity={total} currency="IDR" />
+                <Currency quantity={total || 0} currency="IDR" />
               </span>
             </h2>
             <button
               onClick={createCheckoutSession}
               role={"link"}
-              disabled={!session}
+              disabled={!session || basketItems.length === 0}
               className={`button mt-2 ${
                 !session &&
                 "from-gray-300 to-gray-500 border-gray-200 text-gray-200 cursor-not-allowed"

@@ -1,9 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { buffer } from "micro";
-import env from "@/config/env";
+import createOrder from "@/services/orders/create.service";
 
-const stripe = require("stripe")(env.STRIPE_SECRET_KEY);
-const endpointSecret = env.STRIPE_SIGNING_SECRET
+const stripe = require("stripe")(process.env.stripe_secret_key);
+const endpointSecret = process.env.stripe_signing_secret
+
+const fulfillOrder = async (session: any) => {
+    return createOrder({
+        price: 2000,
+        product_id: 1,
+        product_quantity: 2,
+        total: 4000
+    })
+}
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "POST") {
@@ -22,7 +31,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // Handle the checkout session completed event
         if (event.type === "checkout.session.completed") {
             const session = event.data.object;
-            return session;
+            return fulfillOrder(session).then(() => res.status(200))
+                .catch((error) =>
+                    res.status(400).send(`Webhook Error: ${error.message}`)
+                );;
             // Fulfill the order
             // return fulfillOrder(session)
             //   .then(() => res.status(200))
