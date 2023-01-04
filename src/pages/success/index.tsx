@@ -16,8 +16,8 @@ const Success = () => {
             </h1>
           </div>
           <p>
-            Thank you for shipping with us. We'll send a confimation once item
-            has shipped, if you would like to check the status of order(s)
+            Thank you for shipping with us. We&apos;ll send a confimation once
+            item has shipped, if you would like to check the status of order(s)
             please press the link below.
           </p>
           <button

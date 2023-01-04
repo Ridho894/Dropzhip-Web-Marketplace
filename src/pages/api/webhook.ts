@@ -10,7 +10,7 @@ const fulfillOrder = async (session: any) => {
         price: 2000,
         product_id: 1,
         product_quantity: 2,
-        total: 4000
+        total: 9000
     })
 }
 
