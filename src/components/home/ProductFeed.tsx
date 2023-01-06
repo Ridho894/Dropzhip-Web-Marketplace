@@ -12,9 +12,10 @@ import fetchProductByCategory from "@/services/products/fetch-by-category.servic
 
 type Props = {
   categoryId: string | null;
+  setSeoTitle: (title: string) => void;
 };
 
-function ProductFeed({ categoryId = null }: Props) {
+function ProductFeed({ categoryId = null, setSeoTitle }: Props) {
   const [data, setData] = useState<Response>();
 
   const payload: GetProductParams = {
@@ -39,6 +40,7 @@ function ProductFeed({ categoryId = null }: Props) {
       refetchOnWindowFocus: false,
       onSuccess(data) {
         setData(data as Response);
+        setSeoTitle(data?.category_name);
       },
     }
   );

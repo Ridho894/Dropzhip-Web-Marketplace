@@ -7,6 +7,7 @@ export type Params = {
 }
 
 export type Response = {
+    category_name: string;
     data: {
         data: {
             id: number;
