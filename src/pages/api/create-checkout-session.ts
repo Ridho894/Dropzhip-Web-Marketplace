@@ -5,18 +5,20 @@ const stripe = require("stripe")(process.env.stripe_secret_key);
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { items, email } = req.body;
-    // const transformedItems = items.map((item: { description: string; price: number; title: string; image: string; quantity: number; }) => ({
-    //     description: item.description,
-    //     quantity: item.quantity,
-    //     price_data: {
-    //         currency: "IDR",
-    //         unit_amount: item.price * 100,
-    //         product_data: {
-    //             name: item.title,
-    //             images: [item.image],
-    //         },
-    //     },
-    // }));
+    const transformedItems = items.map((item: { description: string; price: number; name: string; image: string; stock: number; }) => ({
+        // name: item.description,
+        quantity: item.stock,
+        price_data: {
+            currency: "IDR",
+            unit_amount: item.price * 1000,
+            product_data: {
+                name: item.name,
+                description: item.description,
+                images: [item.image],
+            },
+        },
+    }));
+
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         // shipping_options: ["shr_1MMAMxF5A1GcksE08LA34fhP"],
@@ -36,19 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         shipping_address_collection: {
             allowed_countries: ["ID", "SG"],
         },
-        line_items: [
-            {
-                quantity: 1,
-                price_data: {
-                    currency: "IDR",
-                    unit_amount: 20000 * 100,
-                    product_data: {
-                        name: "tes dev 1",
-                        images: ["https://stripe-camo.global.ssl.fastly.net/4358dfb34b9fc87700cffcb94997ce2fbaced757c99fd4eefa3d8c4fc1eba50f/68747470733a2f2f66616b6573746f72656170692e636f6d2f696d672f373159587a654f75736c4c2e5f41435f55593837395f2e6a7067"],
-                    },
-                },
-            }
-        ],
+        line_items: transformedItems,
         mode: "payment",
         success_url: `${env.HOST}/success`,
         cancel_url: `${env.HOST}/checkout`,

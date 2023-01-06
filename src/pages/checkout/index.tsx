@@ -1,3 +1,4 @@
+// @ts-ignore
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
 import {
@@ -17,6 +18,7 @@ const stripePromise = loadStripe(process.env.stripe_public_key!);
 const Checkout = () => {
   const { data: session } = useSession();
 
+  // Redux
   const dispatch = useDispatch();
   const basketItems = useSelector(selectItems);
   const total = useSelector(selectTotal);
@@ -38,6 +40,8 @@ const Checkout = () => {
       console.log(error, "error");
     }
   };
+
+  console.log(basketItems);
 
   return (
     <main className="bg-gray-100 h-full pb-4">

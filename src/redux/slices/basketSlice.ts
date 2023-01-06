@@ -11,6 +11,7 @@ export type Basket = {
   free_delivery: boolean;
   rating: number;
   slug: string;
+  stock: number;
 }
 
 interface CounterState {

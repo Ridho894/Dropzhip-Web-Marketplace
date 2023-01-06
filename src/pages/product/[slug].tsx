@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
+// @ts-ignore
 import Currency from "react-currency-formatter";
 
 import Seo from "@/components/Seo";

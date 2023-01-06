@@ -12,10 +12,15 @@ import fetchProductByCategory from "@/services/products/fetch-by-category.servic
 
 type Props = {
   categoryId: string | null;
-  setSeoTitle: (title: string) => void;
+  setTemplateTitle: (title: string) => void;
+  withBanner?: boolean;
 };
 
-function ProductFeed({ categoryId = null, setSeoTitle }: Props) {
+function ProductFeed({
+  categoryId = null,
+  setTemplateTitle,
+  withBanner = true,
+}: Props) {
   const [data, setData] = useState<Response>();
 
   const payload: GetProductParams = {
@@ -40,7 +45,7 @@ function ProductFeed({ categoryId = null, setSeoTitle }: Props) {
       refetchOnWindowFocus: false,
       onSuccess(data) {
         setData(data as Response);
-        setSeoTitle(data?.category_name);
+        setTemplateTitle(data?.category_name);
       },
     }
   );
@@ -67,8 +72,12 @@ function ProductFeed({ categoryId = null, setSeoTitle }: Props) {
   };
 
   return (
-    <main className="pt-4 pb-8">
-      <section className="grid grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:-mt-52">
+    <main className="pb-8">
+      <section
+        className={`grid grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${
+          withBanner ? "md:-mt-52" : "md:mt-0"
+        } `}
+      >
         {data?.data?.data.slice(0, 4).map((product, i) => (
           <Product
             key={i}

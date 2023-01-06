@@ -8,14 +8,18 @@ const ProductByCategory = () => {
   const router = useRouter();
   const { query } = router;
 
-  const [seoTitle, setSeoTitle] = useState<string>("");
+  const [templateTitle, setTemplateTitle] = useState<string>("");
 
   return (
     <main className="min-h-screen bg-gray-100">
-      <Seo templateTitle={`${seoTitle || "Not Found"}`} />
-      <section className="max-w-screen-xl mx-auto pt-60">
+      <Seo templateTitle={`${templateTitle || "Not Found"}`} />
+      <section className="max-w-screen-xl mx-auto">
+        <h1 className="px-4 pt-6 text-2xl font-semibold">
+          Category: {templateTitle}
+        </h1>
         <ProductFeed
-          setSeoTitle={setSeoTitle}
+          withBanner={false}
+          setTemplateTitle={setTemplateTitle}
           categoryId={query.id as string}
         />
       </section>
