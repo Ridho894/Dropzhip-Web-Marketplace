@@ -12,11 +12,14 @@ type Response = {
         data: {
             id: number;
             name: string;
+            slug: string;
             description: string;
             price: number;
             image: string;
             category_id: string;
             created_by: string
+            rating: number;
+            free_delivery: boolean;
         }[];
     }
     current_page: number;

@@ -28,13 +28,13 @@ Router.events.on("routeChangeError", progress.finish);
 const routeWithoutLayout = ["/login", "/register", "/forgot-password"];
 
 const routeWithGuestLayout = [
-  "/category/[id]",
-  "/product/[slug]",
   "/",
   "/search",
   "/checkout",
   "/success",
   "/orders",
+  "/product/[slug]",
+  "/category/[id]",
 ];
 
 const routeWithAdminLayout = [
@@ -96,7 +96,7 @@ const unprotectedPages = [
   "/forgot-password",
   "/reset-password",
   "/",
-  "/category/[slug]",
+  "/category/[id]",
 ];
 
 type JWTDecoded = {

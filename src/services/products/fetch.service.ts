@@ -6,7 +6,7 @@ export type Params = {
     sort_order: "DESC" | "ASC"
 }
 
-type Response = {
+export type Response = {
     data: {
         data: {
             id: number;
@@ -25,6 +25,7 @@ type Response = {
     from: number;
     total: number;
     per_page: number;
+    message: string;
 }
 
 const fetchProduct = async (page: number, params: Partial<Params> = {}) => {
