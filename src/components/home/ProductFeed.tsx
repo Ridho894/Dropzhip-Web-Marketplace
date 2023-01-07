@@ -9,9 +9,11 @@ import fetchProduct, {
   Response,
 } from "@/services/products/fetch.service";
 import fetchProductByCategory from "@/services/products/fetch-by-category.service";
+import fetchProductByKeyword from "@/services/products/fetch-by-keyword.service";
 
 type Props = {
-  categoryId: string | null;
+  categoryId?: string | null;
+  keyword?: string | null;
   setTemplateTitle: (title: string) => void;
   withBanner?: boolean;
 };
@@ -20,6 +22,7 @@ function ProductFeed({
   categoryId = null,
   setTemplateTitle,
   withBanner = true,
+  keyword = "",
 }: Props) {
   const [data, setData] = useState<Response>();
 
@@ -32,9 +35,43 @@ function ProductFeed({
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  // GET ALL PRODUCTS
+  const { isLoading } = useQuery(
+    ["products", JSON.stringify({ ...payload, currentPage })],
+    () => {
+      const promise = fetchProduct(currentPage, payload);
+
+      return promise;
+    },
+    {
+      enabled: !categoryId && !keyword,
+      refetchOnWindowFocus: false,
+      onSuccess(data) {
+        setData(data as Response);
+      },
+    }
+  );
+
+  // GET PRODUCT BY KEYWORD (SEARCH)
+  const { data: search, isLoading: productsKeywordLoading } = useQuery(
+    ["products-by-keyword", JSON.stringify({ ...payload, keyword: keyword })],
+    () => {
+      const promise = fetchProductByKeyword({ ...payload, keyword: keyword! });
+
+      return promise;
+    },
+    {
+      enabled: keyword !== null,
+      refetchOnWindowFocus: false,
+      onSuccess(data) {
+        setData(data as Response);
+      },
+    }
+  );
+
   // GET PRODUCTS BY CATEGORY ID
-  const { isLoading: productsCategoriesLoading } = useQuery(
-    ["detail-product", JSON.stringify({ ...payload, currentPage })],
+  const { isLoading: productsCategoryLoading } = useQuery(
+    ["products-by-category", JSON.stringify({ ...payload, currentPage })],
     () => {
       const promise = fetchProductByCategory(parseInt(categoryId!), payload);
 
@@ -50,28 +87,12 @@ function ProductFeed({
     }
   );
 
-  // GET ALL PRODUCTS
-  const { isLoading } = useQuery(
-    ["/api/products", JSON.stringify({ ...payload, currentPage })],
-    () => {
-      const promise = fetchProduct(currentPage, payload);
-
-      return promise;
-    },
-    {
-      enabled: !categoryId,
-      refetchOnWindowFocus: false,
-      onSuccess(data) {
-        setData(data as Response);
-      },
-    }
-  );
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  console.log(data);
+  console.log(search, "data");
+  console.log(keyword, "keyword");
 
   return (
     <main className="pb-8">
