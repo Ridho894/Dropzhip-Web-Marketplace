@@ -5,7 +5,6 @@ import { useState } from "react";
 
 const Search = () => {
   const router = useRouter();
-  const { query } = router;
 
   const [templateTitle, setTemplateTitle] = useState<string>("");
 

@@ -6,7 +6,7 @@ import { MenuIcon, SearchIcon } from "@heroicons/react/outline";
 import { ShoppingCartIcon } from "@heroicons/react/solid";
 
 import { fetchCategories } from "@/services/categories/fetch.service";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectItems } from "@/redux/slices/basketSlice";
 
@@ -69,7 +69,9 @@ const footerContent = [
 const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
   // Hooks
   const router = useRouter();
+  const keyword: string = router.query.keyword as string;
 
+  // Redux
   const basketItems = useSelector(selectItems);
 
   const [searchInput, setSearchInput] = useState<string>("");
@@ -100,6 +102,12 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
       behavior: "smooth",
     });
   };
+
+  useEffect(() => {
+    if (keyword) {
+      setSearchInput(keyword);
+    }
+  }, [keyword]);
 
   return (
     <main className="min-h-screen">
