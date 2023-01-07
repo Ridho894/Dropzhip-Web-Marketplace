@@ -71,6 +71,8 @@ function ProductFeed({
     setCurrentPage(page);
   };
 
+  console.log(data);
+
   return (
     <main className="pb-8">
       <section
@@ -78,7 +80,7 @@ function ProductFeed({
           withBanner ? "md:-mt-52" : "md:mt-0"
         } `}
       >
-        {data?.data?.data.slice(0, 4).map((product, i) => (
+        {data?.data?.data?.slice(0, 4).map((product, i) => (
           <Product
             key={i}
             category_id={product.category_id}
@@ -92,11 +94,14 @@ function ProductFeed({
             free_delivery={product.free_delivery}
           />
         ))}
-        <img
-          src="https://links.papareact.com/dyz"
-          alt=".png"
-          className="md:col-span-full px-0 sm:px-5"
-        />
+        {data?.message && <p>{data?.message}</p>}
+        {data?.total! > 4 && (
+          <img
+            src="https://links.papareact.com/dyz"
+            alt=".png"
+            className="md:col-span-full px-0 sm:px-5"
+          />
+        )}
         <div className="md:col-span-2">
           {data?.data?.data?.slice(4, 5).map((product, i) => (
             <Product

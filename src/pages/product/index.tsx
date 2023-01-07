@@ -76,7 +76,7 @@ const ProductPage = () => {
   );
 
   return (
-    <section className="p-6">
+    <section className="p-6 relative z-0">
       <Seo templateTitle="My Products" />
       <h1 className="text-2xl font-bold">Products</h1>
       <p className="my-1 text-sm">

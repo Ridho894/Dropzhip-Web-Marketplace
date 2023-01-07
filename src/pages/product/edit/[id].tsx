@@ -145,8 +145,6 @@ const EditProduct = () => {
     setValue("category_id", product?.data?.category_id);
   }, [product]);
 
-  console.log(product);
-
   return (
     <section className="p-6">
       <Seo templateTitle="Create Product" />

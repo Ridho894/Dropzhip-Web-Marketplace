@@ -41,8 +41,6 @@ const Checkout = () => {
     }
   };
 
-  console.log(basketItems);
-
   return (
     <main className="bg-gray-100 h-full pb-4">
       <Seo templateTitle="Checkout" />

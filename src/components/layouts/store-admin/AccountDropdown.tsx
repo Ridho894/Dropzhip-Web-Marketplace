@@ -6,11 +6,13 @@ import Button from "@/components/core/Button";
 import { ReactSVG } from "react-svg";
 import { useSession, signOut } from "next-auth/react";
 import Avatar from "@/components/common/Avatar";
+import { parseISO } from "date-fns";
 
 const AccountDropdown = () => {
   const { data: session, status } = useSession();
 
   const user = session?.user;
+  const expires = parseISO(session?.expires!).toDateString();
 
   const [modalLogoutShow, setModalLogoutShow] = useState(false);
 
@@ -20,7 +22,7 @@ const AccountDropdown = () => {
         <Avatar name={session?.user?.username} height={35} width={35} />
       </div>
       <div className="absolute z-0 right-0 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 ease-in-out pt-[15px] whitespace-nowrap">
-        <div className="p-4 bg-base-100 w-[300px] shadow-xl rounded-lg">
+        <div className="p-4 bg-white w-[300px] shadow-xl rounded-lg">
           <p className="text-sub1 text-base-900 font-medium mb-2">
             Hi, {user?.name}
           </p>
@@ -29,7 +31,7 @@ const AccountDropdown = () => {
               {user?.is_admin ? "Admin" : null}
             </div>
             <div className="text-sub3 text-base-600 font-normal">
-              Valid until 30 Jun 2022
+              Valid until {expires || ""}
             </div>
           </div>
           <hr className="h-px w-full bg-base-200 my-2.5" />
@@ -55,7 +57,7 @@ const AccountDropdown = () => {
               </a>
             </Link>
             {/* ADMIN */}
-            {user?.is_admin && (
+            {user?.is_admin ? (
               <Link href="/users" passHref>
                 <a href="" className="block">
                   <Button
@@ -76,7 +78,7 @@ const AccountDropdown = () => {
                   </Button>
                 </a>
               </Link>
-            )}
+            ) : null}
             <Button
               size="m"
               type="button"
