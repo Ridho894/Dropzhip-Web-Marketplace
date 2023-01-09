@@ -6,8 +6,7 @@ export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-  "ngrok-skip-browser-warning": "69420",
+  "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
 };
 
 let bearerToken: string = "";
