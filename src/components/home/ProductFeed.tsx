@@ -91,9 +91,6 @@ function ProductFeed({
     setCurrentPage(page);
   };
 
-  console.log(search, "data");
-  console.log(keyword, "keyword");
-
   return (
     <main className="pb-8">
       <section
