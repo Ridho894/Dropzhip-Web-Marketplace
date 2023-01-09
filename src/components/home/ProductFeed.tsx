@@ -20,7 +20,7 @@ type Props = {
 
 function ProductFeed({
   categoryId = null,
-  setTemplateTitle,
+  setTemplateTitle = () => null,
   withBanner = true,
   keyword = "",
 }: Props) {
