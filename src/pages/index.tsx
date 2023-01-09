@@ -5,7 +5,7 @@ import ProductFeed from "@/components/home/ProductFeed";
 export default function Home() {
   return (
     <main className="bg-gray-100">
-      <Seo templateTitle="Homes" />
+      <Seo templateTitle="Home" />
       <section className="max-w-screen-xl mx-auto">
         <Banner />
         <ProductFeed />
