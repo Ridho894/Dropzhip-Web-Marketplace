@@ -12,6 +12,7 @@ const options: NextAuthOptions = {
         password: { label: "password", type: "password" },
         gRecaptchaToken: { label: "g-recaptcha-token", type: "text" },
       },
+      // @ts-ignore
       async authorize(credentials) {
         if (!credentials) throw new Error("No credentials provided");
 
@@ -20,6 +21,8 @@ const options: NextAuthOptions = {
           password: credentials.password,
           "g-recaptcha-response": credentials.gRecaptchaToken,
         });
+
+        if (!data.user) return;
 
         return {
           user: data.user,

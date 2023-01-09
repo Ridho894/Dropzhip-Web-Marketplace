@@ -14,7 +14,7 @@ import fetchProductByKeyword from "@/services/products/fetch-by-keyword.service"
 type Props = {
   categoryId?: string | null;
   keyword?: string | null;
-  setTemplateTitle: (title: string) => void;
+  setTemplateTitle?: (title: string) => void;
   withBanner?: boolean;
 };
 
