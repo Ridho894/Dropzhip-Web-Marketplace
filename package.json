@@ -37,7 +37,7 @@
     "lodash.debounce": "^4.0.8",
     "micro": "^10.0.1",
     "next": "12.1.0",
-    "next-auth": "^4.3.4",
+    "next-auth": "^4.18.8",
     "react": "17.0.2",
     "react-color": "^2.19.3",
     "react-component-export-image": "^1.0.6",
