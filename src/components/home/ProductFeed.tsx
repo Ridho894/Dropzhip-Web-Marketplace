@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import Pagination from "@/components/core/Pagination";
-import Product from "./Product";
+import Product from "@/components/home/Product";
 
 import fetchProduct, {
   Params as GetProductParams,

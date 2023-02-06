@@ -1,8 +1,10 @@
-import Seo from "@/components/Seo";
-import Order from "@/components/order/Order";
-import fetchOrder from "@/services/orders/fetch.service";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+
+import Seo from "@/components/Seo";
+import Order from "@/components/order/Order";
+
+import fetchOrder from "@/services/orders/fetch.service";
 
 const Orders = () => {
   const { data: session } = useSession();

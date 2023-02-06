@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -6,17 +7,16 @@ import Currency from "react-currency-formatter";
 
 import Seo from "@/components/Seo";
 import CommentsSection from "@/components/product/CommentsSection";
-import { Basket, addToBasket } from "@/redux/slices/basketSlice";
-import fetchDetailProduct from "@/services/products/fetch-detail.service";
-import { Fragment } from "react";
 import Button from "@/components/core/Button";
+
+import { Basket, addToBasket } from "@/redux/slices/basketSlice";
+
+import fetchDetailProduct from "@/services/products/fetch-detail.service";
 
 const DetailProduct = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-
   const slug = router.query.slug as string;
-
   const { data: products, isLoading } = useQuery(
     ["detail-product"],
     () => {

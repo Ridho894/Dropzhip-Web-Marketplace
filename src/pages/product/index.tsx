@@ -1,45 +1,43 @@
+import { useState, Fragment, ChangeEvent } from "react";
 import { Popover } from "@headlessui/react";
+import { useRouter } from "next/router";
+import { ReactSVG } from "react-svg";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { MenuIcon } from "@heroicons/react/solid";
+import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
+
 import Checkbox from "@/components/core/Checkbox";
 import Input from "@/components/core/Input";
 import Pagination from "@/components/core/Pagination";
 import Seo from "@/components/Seo";
-import { useRouter } from "next/router";
-import { useEffect, useState, Fragment, ChangeEvent } from "react";
-import { ReactSVG } from "react-svg";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import fetchProductByUser, {
-  Params as GetProductParams,
-} from "@/services/products/fetch-by-user.service";
-import { thousandFormat } from "@/utils/number";
-import { MenuIcon } from "@heroicons/react/solid";
-import { TrashIcon, PencilIcon } from "@heroicons/react/outline";
-import { toastError, toastSuccess } from "@/components/core/Toast";
-import deleteProduct from "@/services/products/delete.service";
 import ModalDeleteProduct from "@/components/product/ModalDeleteProduct";
 import Error from "@/components/condition/Error";
 import Button from "@/components/core/Button";
+
+import fetchProductByUser, {
+  Params as GetProductParams,
+} from "@/services/products/fetch-by-user.service";
+import deleteProduct from "@/services/products/delete.service";
+
+import { thousandFormat } from "@/utils/number";
 
 const ProductPage = () => {
   // Hooks
   const router = useRouter();
   const queryClient = useQueryClient();
-
   // Modal State
   const [moreThanOne, setMoreThanOne] = useState<boolean>(false);
   const [modalDeleteShow, setModalDeleteShow] = useState<boolean>(false);
-
   // Data State
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState<string>("");
-
   const payload: GetProductParams = {
     search: search,
     limit: 100,
     sort_order: "DESC",
     take: 10,
   };
-
   // Fetch data from API
   const {
     data: products,

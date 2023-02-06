@@ -1,20 +1,21 @@
+import { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
+import * as yup from "yup";
+
 import Button from "@/components/core/Button";
 import Checkbox from "@/components/core/Checkbox";
 import Input from "@/components/core/Input";
 import Seo from "@/components/Seo";
+
 import env from "@/config/env";
-import fetchSignin from "@/services/auth/signin.service";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useQueryClient } from "@tanstack/react-query";
-import Cookies from "js-cookie";
-import { getSession, signIn } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
-import { SubmitHandler, useForm } from "react-hook-form";
-import * as yup from "yup";
 
 import EyeOpenIcon from "~/icons/akar/eye-open.svg";
 import EyeSlashedIcon from "~/icons/akar/eye-slashed.svg";
